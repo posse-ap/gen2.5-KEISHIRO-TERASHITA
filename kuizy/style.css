@@ -7,6 +7,7 @@
   position: fixed; 
   top: 0;
   background-color: #ffffff;
+  z-index: 0;
 }
 .globalNav{
   margin-left: 0;
@@ -23,9 +24,7 @@ body{
   max-width: 650px;
   margin: 0 auto;
 }
-h2{
-  text-decoration: underline;
-}
+
 .choice{
   border: solid 1px gray;
   margin: 7px auto;
@@ -34,11 +33,20 @@ h2{
   line-height: 45px;
   padding-left: 25px;
 }
+
 .choice:hover{
   color: red;
   font-size: 120%;
 }
-.space{
-  background-color: aquamarine;
-  height: 10000000000000000px;
+
+h2{
+  z-index: -1;
+}
+h2::after{
+  display: block;
+  width: 120px;
+  height: 2px;
+  background-color: green;
+  content: "";
+  margin-top: 10px;
 }
