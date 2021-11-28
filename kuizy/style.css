@@ -1,0 +1,52 @@
+.headerInner{
+  height: 100px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  position: fixed; 
+  top: 0;
+  background-color: #ffffff;
+  z-index: 0;
+}
+.globalNav{
+  margin-left: 0;
+}
+header{
+  max-width: 650px;
+}
+main{
+  padding-top: 100px;
+  width: 100%;
+  margin: 0 auto;
+}
+body{
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.choice{
+  border: solid 1px gray;
+  margin: 7px auto;
+  box-shadow: 1px 2px 3px gray;
+  height: 45px;
+  line-height: 45px;
+  padding-left: 25px;
+}
+
+.choice:hover{
+  color: red;
+  font-size: 120%;
+}
+
+h2{
+  z-index: -1;
+}
+h2::after{
+  display: block;
+  width: 120px;
+  height: 2px;
+  background-color: green;
+  content: "";
+  margin-top: 10px;
+}
