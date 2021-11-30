@@ -26,9 +26,9 @@ body{
 }
 
 .choice{
-  border: solid 1px gray;
+  border: solid 1px #ebebeb;
   margin: 7px auto;
-  box-shadow: 1px 2px 3px gray;
+  box-shadow: 0 3px 2px -2px rgb(0 0 0 / 13%);
   height: 45px;
   line-height: 45px;
   padding-left: 25px;
