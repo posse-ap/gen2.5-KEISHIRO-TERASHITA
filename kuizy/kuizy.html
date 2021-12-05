@@ -5,7 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>kuizy　試作品</title>
+  <link rel="stylesheet" href="https://unpkg.com/sanitize.css">
   <link rel="stylesheet" href="./style.css">
+  <script src="kuizy_1.js" defer></script>
 </head>
 <body>
   <header>
@@ -27,9 +29,21 @@
       </h2>
       <img src="takanawa.png" alt="" width="100%">
       <div class="choice-for-takanawa">
-        <div class="choice" class="answer">たかなわ</div>
-        <div class="choice">こうわ</div>
-        <div class="choice">たかわ</div>
+        <div onclick="buttonClick(0,0,0)" class="choice" id="choiceList0_0">たかなわ</div>
+        <div onclick="buttonClick(0,1,0)" class="choice" id="choiceList0_1">こうわ</div>
+        <div onclick="buttonClick(0,2,0)" class="choice" id="choiceList0_2">たかわ</div>
+        <div class="answerBox" id="wrongBox1">
+          <p>不正解！</p>
+          <div>
+            正解は「たかなわ」です！
+          </div>
+        </div>
+        <div class="answerBox" id="appear">
+          <p class="collect_1">正解！</p>
+          <div>
+            正解は「たかなわ」です！
+          </div>
+        </div>
       </div>
     </section>
     <section>
