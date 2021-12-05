@@ -26,18 +26,19 @@ body{
 }
 
 .choice{
-  border: solid 1px gray;
+  border: solid 1px #ebebeb;
   margin: 7px auto;
-  box-shadow: 1px 2px 3px gray;
+  font-weight: bold;
+  box-shadow: 0 3px 2px -2px rgb(0 0 0 / 13%);
   height: 45px;
   line-height: 45px;
   padding-left: 25px;
 }
-
+/* 
 .choice:hover{
   color: red;
   font-size: 120%;
-}
+} */
 
 h2{
   z-index: -1;
@@ -46,7 +47,36 @@ h2::after{
   display: block;
   width: 120px;
   height: 2px;
-  background-color: green;
+  background-color: #00aa36;
   content: "";
   margin-top: 10px;
+}
+
+.chosenAnswer{
+  background-color: #297dfe;
+  color: #ffffff;
+}
+
+.chosenWrong{
+  background-color: #ff5028;
+  color: #ffffff;
+}
+
+.answerBox{
+  display: none;
+} 
+
+.appeared{
+  background-color: #f5f5f5;
+}
+
+.oneClick{
+  pointer-events: none;
+}
+
+.collect_1{
+  margin: 20px 0 0 20px;
+  padding-bottom: 3px;
+  border-bottom: solid 3px #297dfe;
+  width: 50px;
 }
