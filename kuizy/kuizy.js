@@ -79,10 +79,6 @@ for(let i = 0; i<choiceList.length; i++){
     choiceBoxes.appendChild(createChoice);
   }
 
-
-
-
-
 //回答BOX（正解、不正解）を追加
   const answerBox = document.createElement('div');
   answerBox.className = ('answerBox');
@@ -112,13 +108,3 @@ for(let i = 0; i<choiceList.length; i++){
   main.appendChild(answerBox);
   main.appendChild(wrongBox);
 }
-
-
-
-// for(let i = 0; i<10; i++){
-//   for(let j = 0; j<3; j++){
-//   const choice = document.getElementById(`choice_${i}_${j}`)
-//   choice.addEventListener( 'dblclick', buttonClick(i,j,0)) 
-//   }
-// }
-// addEventListener は引数が非常に扱いにくい！ setAttribute で onclick をつけてしまうと楽かも setAttribute('onclick','関数()')
