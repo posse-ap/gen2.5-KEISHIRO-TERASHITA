@@ -1,0 +1,77 @@
+main{
+  margin: 0 auto;
+  max-width: 650px;
+}
+
+.questionPicture{
+  width: 100%;
+  margin: 0 auto;
+}
+
+.title::after{
+  display: block;
+  width: 120px;
+  height: 2px;
+  background-color: #00aa36;
+  content: "";
+  margin-top: 10px;
+}
+
+.choice{
+  border: solid 1px #ebebeb;
+  margin: 7px auto;
+  font-weight: bold;
+  box-shadow: 0 3px 2px -2px rgb(0 0 0 / 13%);
+  height: 45px;
+  line-height: 45px;
+  padding-left: 25px;
+}
+
+.oneClick{
+  pointer-events: none;
+}
+
+.answerBox{
+  display: none;
+}
+
+.wrongBox{
+  display: none;
+}
+
+.collectChoice{
+  background-color: #297dfe;
+  color: #ffffff;
+}
+
+.chosenWrong{
+  background-color: #ff5028;
+  color: #ffffff;
+}
+
+.collect{
+  margin-bottom: 10px;
+  border-bottom: solid 3px #297dfe;
+  width: 50px;
+  font-weight: bold;
+}
+
+.wrong{
+  margin-bottom: 10px;
+  border-bottom: solid 3px #ff5028;
+  width: 70px;
+  font-weight: bold;
+}
+
+.answerBoxAfter{
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+
+.wrongBoxAfter{
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+/* .answerBox{
+  display: none;
+} */
