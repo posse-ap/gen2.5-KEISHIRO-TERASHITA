@@ -1,0 +1,393 @@
+body {
+  background-color: #f5f5f8;
+  margin: 0;
+  padding-top: 64px;
+  header {
+    z-index: 100;
+    width: 100%;
+    height: 64px;
+    background-color: white;
+    display: flex;
+    position: fixed;
+    top: 0;
+    justify-content: space-between;
+    align-items: center;
+
+    div {
+      display: flex;
+      height: 64px;
+
+      img {
+        height: 100%;
+        object-fit: cover;
+      }
+      P {
+        line-height: 2;
+        color: #99bad2;
+        margin-left: 16px;
+      }
+    }
+
+    button {
+      margin-right: 40px;
+      width: 208px;
+      height: 50px;
+      border-radius: 25px;
+      border: 0px;
+      padding: 0 auto;
+      color: white;
+      background: linear-gradient(to right, #0f70bb, #42d1ff);
+    }
+  }
+
+  #chartArea {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+
+    #columnChartArea {
+      #data {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        .datum {
+          width: 30%;
+          background-color: white;
+          border-radius: 10px;
+          text-align: center;
+          .dataTitle {
+            color: #0f70bb;
+          }
+          .data_hour {
+            font-size: 32px;
+            font-weight: bold;
+          }
+          .hour {
+            color: #97b9d1;
+          }
+        }
+      }
+      #columnChart {
+        margin: 10px;
+        height: 100%;
+      }
+    }
+    .chartContainer {
+      width: 100%;
+      border-radius: 10px;
+      background-color: white;
+    }
+    #container_pieChart_language {
+      margin-right: 10px;
+      height: 100%;
+    }
+    #container_pieChart_contents {
+      margin-left: 10px;
+      height: 100%;
+    }
+
+    #pieChartArea {
+      display: flex;
+      justify-content: space-between;
+      #pieChart_language {
+        margin: 10px;
+        height: 90%;
+      }
+      #pieChart_contents {
+        margin: 10px;
+        height: 90%;
+      }
+    }
+  }
+
+  .month {
+    text-align: center;
+    margin-top: 40px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    p {
+      line-height: 1;
+      margin: 0;
+    }
+
+    .prev {
+      width: 16px;
+      height: 16px;
+      border-bottom: blue solid 2px;
+      border-left: blue solid 2px;
+      transform: rotate(45deg);
+    }
+    .next {
+      width: 16px;
+      height: 16px;
+      border-top: blue solid 2px;
+      border-right: blue solid 2px;
+      transform: rotate(45deg);
+    }
+  }
+
+
+  #modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    z-index: 101;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: 500ms;
+    display: none;
+    #modalContent {
+      background-color: white;
+      max-width: 900px;
+      border-radius: 30px;
+      animation-name: modalopen;
+      animation-duration: 1s;
+      position: relative;
+      input[type="checkbox"] {
+        display: none;
+        & + label {
+          position: relative;
+          text-align: center;
+          &::before {
+            content: "";
+            display: inline-block;
+            box-sizing: border-box;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #cccccc;
+          }
+          &::after {
+            content: "";
+            display: inline-block;
+            box-sizing: border-box;
+            width: 12px;
+            height: 8px;
+            border-left: #f5f5f8 solid 2px;
+            border-bottom: #f5f5f8 solid 2px;
+            transform: rotate(-45deg);
+            position: absolute;
+            left: 1.5px;
+            top: 1px;
+          }
+        }
+        &:checked + label::before{
+          content: "";
+          display: inline-block;
+          box-sizing: border-box;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background-color: #0f70bd;
+        }
+      }
+      section {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+      #formRapper {
+        p {
+          font-size: 12px;
+          font-weight: bold;
+        }
+        .text {
+          background-color: #f5f5f8;
+          font-size: 16px;
+          width: 100%;
+          border: 0px;
+          line-height: 2;
+          border-radius: 10px;
+          margin-bottom: 15px;
+        }
+        .textarea {
+          background-color: #f5f5f8;
+          font-size: 16px;
+          width: 100%;
+          height: 200px;
+          border: 0px;
+          line-height: 2;
+          border-radius: 10px;
+        }
+        #form_1 {
+          .checkboxRapper {
+            display: flex;
+            flex-wrap: wrap;
+            .checkbox {
+              margin: 5px;
+              padding: 0 10px;
+              border-radius: 16px;
+              background-color: #f5f5f8;
+            }
+          }
+        }
+        #form_2 {
+          label {
+            font-size: 12px;
+          }
+        }
+      }
+      button {
+        display: block;
+        margin: 30px auto;
+        font-size: 20px;
+        width: 350px;
+        height: 50px;
+        border-radius: 25px;
+        border: 0px;
+        padding: 0 auto;
+        color: white;
+        background: linear-gradient(to right, #0f70bb, #42d1ff);
+      }
+    }
+  }
+
+  #calendar{
+    #calendarArea{
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      .cells{
+        width: 14.2%;
+        height: 50px;
+      }
+    }
+  }
+}
+
+@keyframes modalopen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 481px){
+  #chartArea{
+    display: flex;
+    #columnChartArea{
+      .datum{
+        .data_hour{
+          margin: 20px 0;
+        }
+      }
+      width: 50%;
+      margin-right: 10px;
+      .chartContainer{
+        height: 400px;
+      }
+    }
+    #pieChartArea{
+      width: 50%;
+      height: 590px;
+      margin-left: 10px;
+    }
+  }
+  #button_sp{
+    display: none;
+  }
+
+  #modal{
+    #modalContent{
+      margin: 90px auto 0;
+      height: 600px;
+      .text{
+        padding-left: 16px;
+      }
+      .textarea{
+        padding-left: 16px;
+      }
+      .checkbox{
+        line-height: 2;
+      }
+      #formRapper{
+        display: flex;
+        padding: 56px 56px 0;
+        #form_1{
+          width: 50%;
+          margin-right: 20px;
+        }
+        #form_2{
+          width: 50%;
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px){
+  header{
+    button{
+      display: none;
+    }
+  }
+
+  #chartArea{
+    #columnChartArea{
+      .datum{
+        p{
+          margin: 5px 0;
+        }
+      }
+      width: 100%;
+      margin: 0 0 10px;
+      .chartContainer{
+        height: 150px;
+      }
+      #columnChart{
+        height: 100px;
+      }
+    }
+    #pieChartArea{
+      width: 100%;
+      height: 300px;
+      margin: 0;
+    }
+  }
+
+  #modal{
+    #modalContent{
+      margin-top: 64px;
+      height: 1000px;
+      p{
+        margin: 10px 0 8px;
+      }
+      .checkbox{
+        height: 20px;
+        line-height: 1;
+      }
+      .textarea{
+        height: 50px;
+      }
+      #formRapper{
+        padding: 36px 15px 0;
+        #form_1{
+          width: 100%;
+          label{
+            font-size: 12px;
+          }
+        }
+        #form_2{
+          width: 100%;
+        }
+      }
+    }
+  }
+  #button_sp{
+    width: 90%;
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 25px;
+    border: 0px;
+    padding: 0 auto;
+    color: white;
+    background: linear-gradient(to right, #0f70bb, #42d1ff);
+  }
+}
