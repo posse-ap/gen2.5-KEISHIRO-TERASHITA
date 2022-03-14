@@ -65,7 +65,7 @@
         <div id="formRapper">
           <div id="form_1">
             <p>学習日</p>
-            <input type="text" id="date" class = "text" />
+            <input type="text" id="date" class = "text" onclick="showCalendar()"/>
 
             <p>学習コンテンツ（複数選択可）</p>
             <div class="checkboxRapper">
@@ -145,13 +145,15 @@
       </form>
     </div>
 
-    <div id="calendar">
-      <div class="month">
-        <section class="prev"></section>
-        <p>2020年 10月</p>
-        <section class="next"></section>
+    <div id="calendarBackGround">
+      <div id="calendarRapper">
+        <div class="month">
+          <section class="prev" onclick = "prev()"></section>
+          <p id = "calendarHead" onclick = "showDate()"></p>
+          <section class="next" onclick = "next()"></section>
+        </div>
+        <div id="calendarArea"></div>
       </div>
-      <div id="calendarArea"></div>
     </div>
   </body>
 </html>

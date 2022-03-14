@@ -229,16 +229,54 @@ body #modal #modalContent button {
   color: white;
   background: linear-gradient(to right, #0f70bb, #42d1ff);
 }
-body #calendar #calendarArea {
+body #calendarBackGround {
+  z-index: 102;
+  display: none;
+  position: fixed;
   width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+}
+body #calendarBackGround #calendarRapper {
+  width: 90%;
+  height: 70%;
+  margin: 96px auto;
+  padding: 30px 0 0;
+  background-color: white;
+}
+body #calendarBackGround #calendarRapper #calendarArea {
+  width: 90%;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
-body #calendar #calendarArea .cells {
+body #calendarBackGround #calendarRapper #calendarArea .cells {
   width: 14.2%;
   height: 50px;
+  background-color: white;
 }
-
+body #calendarBackGround #calendarRapper #calendarArea .cells_day {
+  width: 14.2%;
+  height: 50px;
+  background-color: #42d1ff;
+}
+body #calendarBackGround #calendarRapper #calendarArea .cells_empty {
+  width: 14.2%;
+  height: 50px;
+  background-color: gray;
+  pointer-events: none;
+}
+body #calendarBackGround #calendarRapper #calendarArea .chosen {
+  background-color: red;
+}
+body #calendarBackGround #calendarRapper #calendarArea .past {
+  color: gray;
+}
+body #calendarBackGround #calendarRapper #calendarArea .today {
+  font-weight: bold;
+}
 @-webkit-keyframes modalopen {
   from {
     opacity: 0;
@@ -247,7 +285,6 @@ body #calendar #calendarArea .cells {
     opacity: 1;
   }
 }
-
 @keyframes modalopen {
   from {
     opacity: 0;

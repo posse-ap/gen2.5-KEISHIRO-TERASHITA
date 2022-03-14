@@ -89,37 +89,51 @@ function closeModal() {
 }
 addEventListener("click", outsideClose);
 function outsideClose(e) {
-  if (e.target == modal) {
+  if (e.target === modal) {
     modal.style.display = "none";
   }
 }
 
 // カレンダー作る
-const date = document.getElementById("date");
+const calendarHead = document.getElementById("calendarHead");
+let monthCounter = 0;
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const today = new Date();
-const year = today.getFullYear();
-const month = today.getMonth();
+let year = today.getFullYear();
+const year_now = today.getFullYear();
+let month = today.getMonth();
+const month_now = today.getMonth();
 const date_today = today.getDate();
-const dayOf1st = new Date(year, month, 1).getDay();
-const lastDate = new Date(year, month + 1, 0).getDate();
-date.value = year + "年" + (month + 1) + "月" + date_today + "日";
+
+const date = document.getElementById("date");
+date.value = year + "年 " + (month + 1) + "月 " + date_today + "日";
 
 const calendar = document.getElementById("calendar");
 const calendarArea = document.getElementById("calendarArea");
 
 for (let i = 0; i < 7; i++) {
   const dayCell = document.createElement("div");
-  dayCell.className = "cells";
+  dayCell.className = "cells_day";
   dayCell.innerHTML = days[i];
   calendarArea.appendChild(dayCell);
 }
 
-for (let i = 0; i < 5; i++) {
+function choseCell(i,j){
+  const chosen = document.querySelector(".chosen");
+  const chosenCell = document.getElementById(`${i}_${j}`)
+  if(chosen !== null){
+    chosen.classList.remove("chosen");
+  }
+  chosenCell.classList.add("chosen");
+  date.value = year + "年 " + (month + 1) + "月 " + chosenCell.innerHTML + "日";
+}
+
+for (let i = 0; i < 6; i++) {
   for (let j = 0; j < 7; j++) {
     const cell = document.createElement("div");
     cell.className = "cells";
     cell.id = `${i}_${j}`;
+    cell.setAttribute("onclick", `choseCell(${i},${j})`);
     calendarArea.appendChild(cell);
   }
 }
@@ -127,6 +141,8 @@ for (let i = 0; i < 5; i++) {
 const cells = document.querySelectorAll(".cells");
 
 function showDate(){
+  const dayOf1st = new Date(year, month, 1).getDay();
+  const lastDate = new Date(year, month + 1, 0).getDate();
   let blank = true;
   let counter = 1;
   cells.forEach(function(element){
@@ -135,29 +151,92 @@ function showDate(){
         blank = false;
         element.innerHTML = `${counter}`;
         if(date_today === 1){
+          element.className = "cells";
           element.classList.add("today");
           element.classList.add("chosen");
         }else{
+          element.className = "cells";
           element.classList.add("past");
+          if(monthCounter > 0){
+            element.className = "cells";
+            element.classList.add("future");
+          }
         }
         counter++;
+      }else{
+        element.innerHTML = "";
       }
     }else{
       element.innerHTML = `${counter}`;
-      if(counter < date_today){
-        element.classList.add("past");
-      }else if(counter === date_today){
-        element.classList.add("today");
-        element.classList.add("chosen");
-      }else{
-        element.classList.add("future");
-      }
-      counter++;
-      if (counter >= lastDate+1){
+      if (counter >= lastDate){
         blank = true;
       }
+      if(monthCounter < 0){
+        element.className = ("cells");
+        element.classList.add("past");
+      }else if(monthCounter > 0){
+        element.className = ("cells");
+        element.classList.add("future");
+      }else{
+        if(counter < date_today){
+          element.className = ("cells")
+          element.classList.add("past");
+        }else if(counter === date_today){
+          element.className = ("cells")
+          element.classList.add("today");
+          element.classList.add("chosen");
+        }else{
+          element.className = ("cells")
+          element.classList.add("future");
+        }
+      }
+      counter++;
+    }
+    if(element.innerHTML === ""){
+      element.className = "cells_empty";
     }
   });
+  calendarHead.innerHTML = year + "年　" + (month+1) + "月";
 }
 
-showDate();
+function prev(){
+  monthCounter--;
+  // year, monthの調整
+  if(month === 0){
+    month = 11;
+    year--;
+  }else{
+    month--;
+  }
+
+  // カレンダーの再表示
+  showDate();
+}
+
+function next(){
+  monthCounter++;
+  //year, monthの調整
+  if(month === 11){
+    month = 0;
+    year++;
+  }else{
+    month++;
+  }
+
+  // カレンダーの再表示
+  showDate();
+}
+
+const calendarBackGround = document.getElementById("calendarBackGround");
+
+function showCalendar(){
+  calendarBackGround.style.display = "block";
+  showDate();
+}
+
+addEventListener("click", closeCalendar);
+function closeCalendar(e){
+  if (e.target === calendarBackGround) {
+    calendarBackGround.style.display = "none";
+  }
+}
