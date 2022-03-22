@@ -127,7 +127,6 @@ body #modal {
   top: 0;
   left: 0;
   transition: 500ms;
-  display: none;
 }
 body #modal #modalContent {
   background-color: white;
@@ -143,6 +142,7 @@ body #modal #modalContent input[type=checkbox] {
   display: none;
 }
 body #modal #modalContent input[type=checkbox] + label {
+  margin-left: 15px;
   position: relative;
   text-align: center;
 }
@@ -154,6 +154,7 @@ body #modal #modalContent input[type=checkbox] + label::before {
   height: 16px;
   border-radius: 50%;
   background-color: #cccccc;
+  position: absolute;
 }
 body #modal #modalContent input[type=checkbox] + label::after {
   content: "";
@@ -165,8 +166,6 @@ body #modal #modalContent input[type=checkbox] + label::after {
   border-bottom: #f5f5f8 solid 2px;
   transform: rotate(-45deg);
   position: absolute;
-  left: 1.5px;
-  top: 1px;
 }
 body #modal #modalContent input[type=checkbox]:checked + label::before {
   content: "";
@@ -209,10 +208,15 @@ body #modal #modalContent #formRapper #form_1 .checkboxRapper {
   flex-wrap: wrap;
 }
 body #modal #modalContent #formRapper #form_1 .checkboxRapper .checkbox {
+  display: flex;
+  align-items: center;
   margin: 5px;
   padding: 0 10px;
   border-radius: 16px;
   background-color: #f5f5f8;
+}
+body #modal #modalContent #formRapper #form_1 .checkboxRapper .checkbox_chosen {
+  background-color: #97b9d1;
 }
 body #modal #modalContent #formRapper #form_2 label {
   font-size: 12px;
@@ -330,6 +334,14 @@ body #calendarBackGround #calendarRapper #calendarArea .today {
   #modal #modalContent .checkbox {
     line-height: 2;
   }
+  #modal #modalContent .checkbox input[type=checkbox] + label::before {
+    top: 8px;
+    left: -18px;
+  }
+  #modal #modalContent .checkbox input[type=checkbox] + label::after {
+    top: 10px;
+    left: -17px;
+  }
   #modal #modalContent #formRapper {
     display: flex;
     padding: 56px 56px 0;
@@ -341,6 +353,14 @@ body #calendarBackGround #calendarRapper #calendarArea .today {
   #modal #modalContent #formRapper #form_2 {
     width: 50%;
     margin-left: 20px;
+  }
+  #modal #modalContent #formRapper #form_2 input[type=checkbox] + label::before {
+    top: -2px;
+    left: -18px;
+  }
+  #modal #modalContent #formRapper #form_2 input[type=checkbox] + label::after {
+    top: 0px;
+    left: -17px;
   }
 }
 @media screen and (max-width: 480px) {
@@ -378,6 +398,14 @@ body #calendarBackGround #calendarRapper #calendarArea .today {
     height: 20px;
     line-height: 1;
   }
+  #modal #modalContent .checkbox input[type=checkbox] + label::before {
+    top: -2px;
+    left: -18px;
+  }
+  #modal #modalContent .checkbox input[type=checkbox] + label::after {
+    top: 1px;
+    left: -16px;
+  }
   #modal #modalContent .textarea {
     height: 50px;
   }
@@ -392,6 +420,14 @@ body #calendarBackGround #calendarRapper #calendarArea .today {
   }
   #modal #modalContent #formRapper #form_2 {
     width: 100%;
+  }
+  #modal #modalContent #formRapper #form_2 input[type=checkbox] + label::before {
+    top: -2px;
+    left: -18px;
+  }
+  #modal #modalContent #formRapper #form_2 input[type=checkbox] + label::after {
+    top: 1px;
+    left: -16px;
   }
 
   #button_sp {

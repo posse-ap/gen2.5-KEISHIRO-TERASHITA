@@ -231,7 +231,6 @@ const calendarBackGround = document.getElementById("calendarBackGround");
 
 function showCalendar(){
   calendarBackGround.style.display = "block";
-  showDate();
 }
 
 addEventListener("click", closeCalendar);
@@ -240,3 +239,17 @@ function closeCalendar(e){
     calendarBackGround.style.display = "none";
   }
 }
+
+window.onload = showDate();
+
+// チェックボックスクリック時の色
+const checkbox = document.querySelectorAll(".checkbox");
+const checkbox_label = document.querySelectorAll("label");
+
+function checkboxClick(index){
+  if(checkbox[index]){
+    checkbox[index].classList.toggle("checkbox_chosen");
+  }
+}
+
+checkbox_label.forEach((element, index) => element.setAttribute("onclick", `checkboxClick(${index})`));
