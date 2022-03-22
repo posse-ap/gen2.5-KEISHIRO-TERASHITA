@@ -98,12 +98,17 @@ function outsideClose(e) {
 const calendarHead = document.getElementById("calendarHead");
 let monthCounter = 0;
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 const today = new Date();
 let year = today.getFullYear();
 const year_now = today.getFullYear();
+
 let month = today.getMonth();
 const month_now = today.getMonth();
+let month_chosen = today.getMonth();
+
 const date_today = today.getDate();
+let date_chosen = today.getDate();
 
 const date = document.getElementById("date");
 date.value = year + "年 " + (month + 1) + "月 " + date_today + "日";
@@ -121,11 +126,14 @@ for (let i = 0; i < 7; i++) {
 function choseCell(i,j){
   const chosen = document.querySelector(".chosen");
   const chosenCell = document.getElementById(`${i}_${j}`)
-  if(chosen !== null){
+  if(chosen){
     chosen.classList.remove("chosen");
   }
   chosenCell.classList.add("chosen");
   date.value = year + "年 " + (month + 1) + "月 " + chosenCell.innerHTML + "日";
+
+  month_chosen = month;
+  date_chosen = Number(chosenCell.innerHTML);
 }
 
 for (let i = 0; i < 6; i++) {
@@ -153,14 +161,9 @@ function showDate(){
         if(date_today === 1){
           element.className = "cells";
           element.classList.add("today");
-          element.classList.add("chosen");
         }else{
           element.className = "cells";
           element.classList.add("past");
-          if(monthCounter > 0){
-            element.className = "cells";
-            element.classList.add("future");
-          }
         }
         counter++;
       }else{
@@ -184,13 +187,15 @@ function showDate(){
         }else if(counter === date_today){
           element.className = ("cells")
           element.classList.add("today");
-          element.classList.add("chosen");
         }else{
           element.className = ("cells")
           element.classList.add("future");
         }
       }
       counter++;
+    }
+    if(month === month_chosen && element.innerHTML === `${date_chosen}`){
+      element.classList.add("chosen");
     }
     if(element.innerHTML === ""){
       element.className = "cells_empty";
