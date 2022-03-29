@@ -73,6 +73,10 @@ body #chartArea .chartContainer {
   border-radius: 10px;
   background-color: white;
 }
+body #chartArea .chartContainer .pieChartTitle {
+  margin-left: 20px;
+  font-weight: bold;
+}
 body #chartArea #container_pieChart_language {
   margin-right: 10px;
   height: 100%;
@@ -87,11 +91,25 @@ body #chartArea #pieChartArea {
 }
 body #chartArea #pieChartArea #pieChart_language {
   margin: 10px;
-  height: 90%;
+  height: 50%;
 }
 body #chartArea #pieChartArea #pieChart_contents {
   margin: 10px;
-  height: 90%;
+  height: 50%;
+}
+body #chartArea #pieChartArea .pieChartElementsArea {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5%;
+}
+body #chartArea #pieChartArea .pieChartElementsArea .pieChartElements {
+  margin-left: 16px;
+}
+body #chartArea #pieChartArea .pieChartElementsArea .pieChartElements:before {
+  content: "";
+  display: inline-block;
+  box-sizing: border-box;
+  border-radius: 50%;
 }
 body .month {
   text-align: center;
@@ -222,6 +240,69 @@ body #modal #modalContent #formRapper #form_1 .checkboxRapper .checkbox_chosen {
 body #modal #modalContent #formRapper #form_2 label {
   font-size: 12px;
 }
+body #modal #modalContent #formRapper #loading_back {
+  width: 100px;
+  height: 100px;
+  margin: 100px auto;
+  border-radius: 50%;
+  background: linear-gradient(to right top, #0f70bb, #42d1ff);
+  position: relative;
+  -webkit-animation: loading 1s linear infinite;
+          animation: loading 1s linear infinite;
+}
+body #modal #modalContent #formRapper #loading_back:before {
+  content: "";
+  background-color: white;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+}
+body #modal #modalContent #formRapper #loading_back #loading_front {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+}
+body #modal #modalContent #formRapper #completeMessage {
+  width: 200px;
+  margin: 0 auto;
+  align-items: center;
+}
+body #modal #modalContent #formRapper #completeMessage #awesome {
+  color: #bde360;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20px;
+}
+body #modal #modalContent #formRapper #completeMessage #mark {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  background-color: #bde360;
+  border-radius: 50%;
+  position: relative;
+}
+body #modal #modalContent #formRapper #completeMessage #mark:before {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 20px;
+  border-bottom: white solid 6px;
+  border-left: white solid 6px;
+  transform: rotate(-45deg);
+  position: absolute;
+  top: 30px;
+  left: 25px;
+}
+body #modal #modalContent #formRapper #completeMessage #message_done {
+  font: 30px bold;
+  text-align: center;
+  margin-top: 30px;
+}
 body #modal #modalContent button {
   display: block;
   margin: 30px auto;
@@ -233,6 +314,9 @@ body #modal #modalContent button {
   padding: 0 auto;
   color: white;
   background: linear-gradient(to right, #0f70bb, #42d1ff);
+}
+body #modal #modalContent #link_share {
+  text-decoration: none;
 }
 body #calendarBackGround {
   z-index: 102;
@@ -252,7 +336,7 @@ body #calendarBackGround #calendarRapper {
 }
 body #calendarBackGround #calendarRapper #calendarArea {
   width: 90%;
-  margin: 0 auto;
+  margin: 16px auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -282,6 +366,19 @@ body #calendarBackGround #calendarRapper #calendarArea .past {
 body #calendarBackGround #calendarRapper #calendarArea .today {
   font-weight: bold;
 }
+body #calendarBackGround #calendarRapper button {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;
+  border: 0px;
+  padding: 0 auto;
+  font-size: 25px;
+  color: white;
+  background: linear-gradient(to right, #0f70bb, #42d1ff);
+}
+
 @-webkit-keyframes modalopen {
   from {
     opacity: 0;
@@ -290,6 +387,7 @@ body #calendarBackGround #calendarRapper #calendarArea .today {
     opacity: 1;
   }
 }
+
 @keyframes modalopen {
   from {
     opacity: 0;
@@ -316,6 +414,13 @@ body #calendarBackGround #calendarRapper #calendarArea .today {
     width: 50%;
     height: 590px;
     margin-left: 10px;
+  }
+  #chartArea #pieChartArea .pieChartTitle {
+    font-size: 20px;
+  }
+  #chartArea #pieChartArea .pieChartElements:before {
+    width: 16px;
+    height: 16px;
   }
 
   #button_sp {
@@ -384,8 +489,18 @@ body #calendarBackGround #calendarRapper #calendarArea .today {
   }
   #chartArea #pieChartArea {
     width: 100%;
-    height: 300px;
+    height: 350px;
     margin: 0;
+  }
+  #chartArea #pieChartArea p {
+    margin-bottom: 0;
+  }
+  #chartArea #pieChartArea .pieChartElements {
+    font-size: 12px;
+  }
+  #chartArea #pieChartArea .pieChartElements:before {
+    width: 12px;
+    height: 12px;
   }
 
   #modal #modalContent {
@@ -442,6 +557,67 @@ body #calendarBackGround #calendarRapper #calendarArea .today {
     padding: 0 auto;
     color: white;
     background: linear-gradient(to right, #0f70bb, #42d1ff);
+  }
+}
+.pieChartElements:nth-child(1):before {
+  background-color: #0445ec;
+}
+
+.pieChartElements:nth-child(2):before {
+  background-color: #0f70bd;
+}
+
+.pieChartElements:nth-child(3):before {
+  background-color: #20bdde;
+}
+
+.pieChartElements:nth-child(4):before {
+  background-color: #3ccefe;
+}
+
+.pieChartElements:nth-child(5):before {
+  background-color: #b29ef3;
+}
+
+.pieChartElements:nth-child(6):before {
+  background-color: #6c46eb;
+}
+
+.pieChartElements:nth-child(7):before {
+  background-color: #4a17ef;
+}
+
+.pieChartElements:nth-child(8):before {
+  background-color: #3005c0;
+}
+
+.pieChartElements:nth-child(1):before {
+  background-color: #0445ec;
+}
+
+.pieChartElements:nth-child(2):before {
+  background-color: #0f70bd;
+}
+
+.pieChartElements:nth-child(3):before {
+  background-color: #20bdde;
+}
+
+@-webkit-keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 /*# sourceMappingURL=style.css.map */

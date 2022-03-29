@@ -1,40 +1,54 @@
 function drawColumnChart() {
   const target = document.getElementById("columnChart");
-  const options = {};
+  const options = {
+    "chartArea" : {"width" : "90%" , "height" : "80%"},
+    padding:0,
+    vAxis: {
+      format: "#h",
+      ticks: [0, 2, 4, 6, 8],
+    },
+    hAxis: {
+      showTextEvery: 1,
+      textStyle:{
+        fontSize:10
+      }
+      // textSize:12
+    },
+  };
   const chart = new google.visualization.ColumnChart(target);
   const data = google.visualization.arrayToDataTable([
     ["date", "hour"],
-    ["1", 2],
+    ["", 2],
     ["2", 0],
-    ["3", 3],
+    ["", 3],
     ["4", 0],
-    ["5", 4],
+    ["", 4],
     ["6", 5],
-    ["7", 8],
+    ["", 8],
     ["8", 8],
-    ["9", 1],
+    ["", 1],
     ["10", 0],
-    ["11", 8],
+    ["", 8],
     ["12", 0],
-    ["13", 8],
+    ["", 8],
     ["14", 2],
-    ["15", 3],
+    ["", 3],
     ["16", 6],
-    ["17", 0],
+    ["", 0],
     ["18", 7],
-    ["19", 5],
+    ["", 5],
     ["20", 0],
-    ["21", 1],
+    ["", 1],
     ["22", 1],
-    ["23", 3],
+    ["", 3],
     ["24", 8],
-    ["25", 4],
+    ["", 4],
     ["26", 5],
-    ["27", 6],
+    ["", 6],
     ["28", 2],
-    ["29", 0],
+    ["", 0],
     ["30", 1],
-    ["31", 2],
+    ["", 2],
   ]);
   chart.draw(data, options);
 }
@@ -42,15 +56,31 @@ function drawColumnChart() {
 function drawPieChart_language() {
   const target = document.getElementById("pieChart_language");
   const options = {
-    title: "学習言語",
+    pieHole: 0.5,
+    legend: "none",
+    'chartArea': {'width': '95%', 'height': '95%'},
+    slices: {
+      0: { color: '#0445ec' },
+      1: { color: '#0f70bd' },
+      2: { color: '#20bdde' },
+      3: { color: '#3ccefe' },
+      4: { color: '#b29ef3' },
+      5: { color: '#6c46eb' },
+      6: { color: '#4a17ef' },
+      7: { color: '#3005c0' },
+    }
   };
   const chart = new google.visualization.PieChart(target);
   const data = new google.visualization.arrayToDataTable([
-    ["language", "Votes"],
-    ["PHP", 100],
-    ["Ruby", 20],
-    ["Python", 10],
-    ["js", 200],
+    ["language", "hours"],
+    ["JavaScript", 10],
+    ["CSS", 20],
+    ["PHP", 10],
+    ["HTML", 2],
+    ["Laravel", 11],
+    ["SQL", 5],
+    ["SHELL", 7],
+    ["情報システム基礎知識(その他)", 8],
   ]);
   chart.draw(data, options);
 }
@@ -58,15 +88,21 @@ function drawPieChart_language() {
 function drawPieChart_contents() {
   const target = document.getElementById("pieChart_contents");
   const options = {
-    title: "学習コンテンツ",
+    pieHole: 0.5,
+    legend: "none",
+    'chartArea': {'width': '95%', 'height': '95%'},
+    slices: {
+      0: { color: '#0445ec' },
+      1: { color: '#0f70bd' },
+      2: { color: '#20bdde' },
+    }
   };
   const chart = new google.visualization.PieChart(target);
   const data = new google.visualization.arrayToDataTable([
     ["language", "Votes"],
-    ["PHP", 100],
-    ["Ruby", 20],
-    ["Python", 10],
-    ["js", 200],
+    ["ドットインストール", 40],
+    ["N予備校", 20],
+    ["POSSE課題", 10]
   ]);
   chart.draw(data, options);
 }
@@ -86,12 +122,52 @@ function showModal() {
 modalClose.addEventListener("click", closeModal);
 function closeModal() {
   modal.style.display = "none";
+  location.reload();
 }
 addEventListener("click", outsideClose);
 function outsideClose(e) {
   if (e.target === modal) {
     modal.style.display = "none";
+    location.reload();
   }
+}
+
+const link_share = document.getElementById("link_share");
+link_share.addEventListener("click", function(event){
+  const shareButton = document.getElementById("share");
+  if (shareButton.checked){
+    const twitterMessage = document.getElementById("twitterMessage");
+    link_share.href = `https://twitter.com/intent/tweet?&text=${twitterMessage.value}`;
+  }else{
+    event.preventDefault();
+  }
+  formRapper.innerHTML = "";
+  document.getElementById("submitButton").style.display = "none";
+  const loading_back = document.createElement("div");
+  loading_back.id = "loading_back";
+  formRapper.appendChild(loading_back);
+  const loading_front = document.createElement("div");
+  loading_front.id = "loading_front";
+  loading_back.appendChild(loading_front);
+  setTimeout(done, 2500);
+});
+
+function done(){
+  formRapper.innerHTML = "";
+  const completeMessage = document.createElement("div");
+  completeMessage.id = "completeMessage";
+  const awesome = document.createElement("p");
+  awesome.id = "awesome";
+  awesome.innerHTML = "AWESOME!";
+  completeMessage.appendChild(awesome);
+  const mark = document.createElement("div");
+  mark.id = "mark";
+  completeMessage.appendChild(mark);
+  const message = document.createElement("div");
+  message.id = "message_done";
+  message.innerHTML = "記録、投稿<br>完了しました";
+  completeMessage.appendChild(message);
+  formRapper.appendChild(completeMessage);
 }
 
 // カレンダー作る
@@ -101,6 +177,7 @@ const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const today = new Date();
 let year = today.getFullYear();
+let year_chosen = today.getFullYear();
 const year_now = today.getFullYear();
 
 let month = today.getMonth();
@@ -123,17 +200,22 @@ for (let i = 0; i < 7; i++) {
   calendarArea.appendChild(dayCell);
 }
 
-function choseCell(i,j){
+function choseCell(i, j) {
   const chosen = document.querySelector(".chosen");
-  const chosenCell = document.getElementById(`${i}_${j}`)
-  if(chosen){
+  const chosenCell = document.getElementById(`${i}_${j}`);
+  if (chosen) {
     chosen.classList.remove("chosen");
   }
   chosenCell.classList.add("chosen");
-  date.value = year + "年 " + (month + 1) + "月 " + chosenCell.innerHTML + "日";
 
+  year_chosen = year;
   month_chosen = month;
   date_chosen = Number(chosenCell.innerHTML);
+}
+
+function getValueOfDate(){
+  date.value = year_chosen + "年 " + (month_chosen + 1) + "月 " + date_chosen + "日";
+  calendarBackGround.style.display = "none";
 }
 
 for (let i = 0; i < 6; i++) {
@@ -148,69 +230,69 @@ for (let i = 0; i < 6; i++) {
 
 const cells = document.querySelectorAll(".cells");
 
-function showDate(){
+function showDate() {
   const dayOf1st = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
   let blank = true;
   let counter = 1;
-  cells.forEach(function(element){
-    if(blank){
-      if(element.id === `0_${dayOf1st}`){
+  cells.forEach(function (element) {
+    if (blank) {
+      if (element.id === `0_${dayOf1st}`) {
         blank = false;
         element.innerHTML = `${counter}`;
-        if(date_today === 1){
+        if (date_today === 1) {
           element.className = "cells";
           element.classList.add("today");
-        }else{
+        } else {
           element.className = "cells";
           element.classList.add("past");
         }
         counter++;
-      }else{
+      } else {
         element.innerHTML = "";
       }
-    }else{
+    } else {
       element.innerHTML = `${counter}`;
-      if (counter >= lastDate){
+      if (counter >= lastDate) {
         blank = true;
       }
-      if(monthCounter < 0){
-        element.className = ("cells");
+      if (monthCounter < 0) {
+        element.className = "cells";
         element.classList.add("past");
-      }else if(monthCounter > 0){
-        element.className = ("cells");
+      } else if (monthCounter > 0) {
+        element.className = "cells";
         element.classList.add("future");
-      }else{
-        if(counter < date_today){
-          element.className = ("cells")
+      } else {
+        if (counter < date_today) {
+          element.className = "cells";
           element.classList.add("past");
-        }else if(counter === date_today){
-          element.className = ("cells")
+        } else if (counter === date_today) {
+          element.className = "cells";
           element.classList.add("today");
-        }else{
-          element.className = ("cells")
+        } else {
+          element.className = "cells";
           element.classList.add("future");
         }
       }
       counter++;
     }
-    if(month === month_chosen && element.innerHTML === `${date_chosen}`){
+    if (year === year_chosen && month === month_chosen && element.innerHTML === `${date_chosen}`) {
       element.classList.add("chosen");
     }
-    if(element.innerHTML === ""){
+    if (element.innerHTML === "") {
       element.className = "cells_empty";
     }
   });
-  calendarHead.innerHTML = year + "年　" + (month+1) + "月";
+  calendarHead.innerHTML = year + "年　" + (month + 1) + "月";
 }
 
-function prev(){
+function prev() {
   monthCounter--;
   // year, monthの調整
-  if(month === 0){
+  if (month === 0) {
     month = 11;
     year--;
-  }else{
+  } else {
     month--;
   }
 
@@ -218,13 +300,13 @@ function prev(){
   showDate();
 }
 
-function next(){
+function next() {
   monthCounter++;
   //year, monthの調整
-  if(month === 11){
+  if (month === 11) {
     month = 0;
     year++;
-  }else{
+  } else {
     month++;
   }
 
@@ -234,12 +316,12 @@ function next(){
 
 const calendarBackGround = document.getElementById("calendarBackGround");
 
-function showCalendar(){
+function showCalendar() {
   calendarBackGround.style.display = "block";
 }
 
 addEventListener("click", closeCalendar);
-function closeCalendar(e){
+function closeCalendar(e) {
   if (e.target === calendarBackGround) {
     calendarBackGround.style.display = "none";
   }
@@ -251,10 +333,12 @@ window.onload = showDate();
 const checkbox = document.querySelectorAll(".checkbox");
 const checkbox_label = document.querySelectorAll("label");
 
-function checkboxClick(index){
-  if(checkbox[index]){
+function checkboxClick(index) {
+  if (checkbox[index]) {
     checkbox[index].classList.toggle("checkbox_chosen");
   }
 }
 
-checkbox_label.forEach((element, index) => element.setAttribute("onclick", `checkboxClick(${index})`));
+checkbox_label.forEach((element, index) =>
+  element.setAttribute("onclick", `checkboxClick(${index})`)
+);

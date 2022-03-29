@@ -7,6 +7,7 @@
     <title>webapp</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://www.gstatic.com/charts/loader.js" defer></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" defer></script>
     <script src="./webapp.js" defer></script>
   </head>
   <body>
@@ -43,10 +44,27 @@
       </div>
       <div id="pieChartArea">
         <div class="chartContainer" id="container_pieChart_language">
+          <p class="pieChartTitle">学習言語</p>
           <div id="pieChart_language"></div>
+          <div class="pieChartElementsArea">
+            <div class="pieChartElements">JavaScript</div>
+            <div class="pieChartElements">CSS</div>
+            <div class="pieChartElements">PHP</div>
+            <div class="pieChartElements">HTML</div>
+            <div class="pieChartElements">Laravel</div>
+            <div class="pieChartElements">SQL</div>
+            <div class="pieChartElements">SHELL</div>
+            <div class="pieChartElements">情報システム基礎知識(その他)</div>
+          </div>
         </div>
         <div class="chartContainer" id="container_pieChart_contents">
+          <p class="pieChartTitle">学習コンテンツ</p>
           <div id="pieChart_contents"></div>
+          <div class="pieChartElementsArea">
+            <div class="pieChartElements">ドットインストール</div>
+            <div class="pieChartElements">N予備校</div>
+            <div class="pieChartElements">POSSE課題</div>
+          </div>
         </div>
       </div>
     </div>
@@ -56,17 +74,16 @@
       <section class="next"></section>
     </div>
 
-    <button onclick="showModal()" id = "button_sp">記録・投稿</button>
+    <button onclick="showModal()" id = "button_sp" class="button">記録・投稿</button>
 
     <!-- モーダル -->
     <div id="modal">
-      <form method="post" action="" id="modalContent">
+      <div id="modalContent">
         <section id = "modalClose">&times;</section>
         <div id="formRapper">
           <div id="form_1">
             <p>学習日</p>
             <input type="text" id="date" class = "text" onclick="showCalendar()"/>
-
             <p>学習コンテンツ（複数選択可）</p>
             <div class="checkboxRapper">
               <div class="checkbox">
@@ -141,8 +158,11 @@
             </div>
           </div>
         </div>
-        <button type　=　"submit">記録・投稿</button>
-      </form>
+        
+        <a href="" target="blank" id="link_share">
+          <button class="button" id = "submitButton">記録・投稿</button>
+        </a>
+      </div>
     </div>
 
     <div id="calendarBackGround">
@@ -153,6 +173,7 @@
           <section class="next" onclick = "next()"></section>
         </div>
         <div id="calendarArea"></div>
+        <button class="button" onclick="getValueOfDate()">決定</button>
       </div>
     </div>
   </body>

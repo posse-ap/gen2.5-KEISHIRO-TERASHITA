@@ -76,6 +76,10 @@ body {
       width: 100%;
       border-radius: 10px;
       background-color: white;
+      .pieChartTitle {
+        margin-left: 20px;
+        font-weight: bold;
+      }
     }
     #container_pieChart_language {
       margin-right: 10px;
@@ -91,11 +95,25 @@ body {
       justify-content: space-between;
       #pieChart_language {
         margin: 10px;
-        height: 90%;
+        height: 50%;
       }
       #pieChart_contents {
         margin: 10px;
-        height: 90%;
+        height: 50%;
+      }
+      .pieChartElementsArea {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 5%;
+        .pieChartElements {
+          margin-left: 16px;
+          &:before {
+            content: "";
+            display: inline-block;
+            box-sizing: border-box;
+            border-radius: 50%;
+          }
+        }
       }
     }
   }
@@ -126,7 +144,6 @@ body {
       transform: rotate(45deg);
     }
   }
-
 
   #modal {
     background-color: rgba(0, 0, 0, 0.5);
@@ -173,7 +190,7 @@ body {
             position: absolute;
           }
         }
-        &:checked + label::before{
+        &:checked + label::before {
           content: "";
           display: inline-block;
           box-sizing: border-box;
@@ -222,7 +239,7 @@ body {
               padding: 0 10px;
               border-radius: 16px;
               background-color: #f5f5f8;
-              &_chosen{
+              &_chosen {
                 background-color: #97b9d1;
               }
             }
@@ -231,6 +248,70 @@ body {
         #form_2 {
           label {
             font-size: 12px;
+          }
+        }
+
+        #loading_back{
+          width: 100px;
+          height: 100px;
+          margin: 100px auto;
+          border-radius: 50%;
+          background: linear-gradient(to right top, #0f70bb, #42d1ff);
+          position: relative;
+          animation: loading 1s linear infinite;
+          &:before{
+            content: "";
+            background-color: white;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+          }
+          #loading_front{
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: 10%;
+            left: 10%;
+          }
+        }
+
+        #completeMessage{
+          width: 200px;
+          margin: 0 auto;
+          align-items: center;
+          #awesome{
+            color: #bde360;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 20px;
+          }
+          #mark{
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            background-color: #bde360;
+            border-radius: 50%;
+            position: relative;
+            &:before{
+              content: "";
+              display: block;
+              width: 50px;
+              height: 20px;
+              border-bottom: white solid 6px;
+              border-left: white solid 6px;
+              transform: rotate(-45deg);
+              position: absolute;
+              top: 30px;
+              left: 25px;
+            }
+          }
+          #message_done{
+            font: 30px bold;
+            text-align: center;
+            margin-top: 30px;
           }
         }
       }
@@ -246,10 +327,13 @@ body {
         color: white;
         background: linear-gradient(to right, #0f70bb, #42d1ff);
       }
+      #link_share{
+        text-decoration: none;
+      }
     }
   }
 
-  #calendarBackGround{
+  #calendarBackGround {
     z-index: 102;
     display: none;
     position: fixed;
@@ -257,45 +341,57 @@ body {
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     top: 0;
-    #calendarRapper{
+    #calendarRapper {
       width: 90%;
       height: 70%;
       margin: 96px auto;
       padding: 30px 0 0;
       background-color: white;
-      #calendarArea{
+      #calendarArea {
         width: 90%;
-        margin: 0 auto;
+        margin: 16px auto;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        .cells{
+        .cells {
           width: 14.2%;
           height: 50px;
           background-color: white;
-          &_day{
+          &_day {
             width: 14.2%;
             height: 50px;
             background-color: #42d1ff;
           }
-          &_empty{
+          &_empty {
             width: 14.2%;
             height: 50px;
             background-color: gray;
             pointer-events: none;
           }
         }
-        .chosen{
+        .chosen {
           background-color: red;
         }
-        .past{
+        .past {
           color: gray;
         }
-        .today{
+        .today {
           font-weight: bold;
         }
-        .future{
+        .future {
         }
+      }
+      button {
+        display: block;
+        margin: 0 auto;
+        width: 200px;
+        height: 50px;
+        border-radius: 25px;
+        border: 0px;
+        padding: 0 auto;
+        font-size: 25px;
+        color: white;
+        background: linear-gradient(to right, #0f70bb, #42d1ff);
       }
     }
   }
@@ -310,70 +406,77 @@ body {
   }
 }
 
-@media screen and (min-width: 481px){
-  #chartArea{
+@media screen and (min-width: 481px) {
+  #chartArea {
     display: flex;
-    #columnChartArea{
-      .datum{
-        .data_hour{
+    #columnChartArea {
+      .datum {
+        .data_hour {
           margin: 20px 0;
         }
       }
       width: 50%;
       margin-right: 10px;
-      .chartContainer{
+      .chartContainer {
         height: 400px;
       }
     }
-    #pieChartArea{
+    #pieChartArea {
       width: 50%;
       height: 590px;
       margin-left: 10px;
+      .pieChartTitle {
+        font-size: 20px;
+      }
+      .pieChartElements:before {
+        width: 16px;
+        height: 16px;
+      }
     }
   }
-  #button_sp{
+  #button_sp {
     display: none;
   }
 
-  #modal{
-    #modalContent{
+  #modal {
+    #modalContent {
       margin: 90px auto 0;
       height: 600px;
-      .text{
+      .text {
         padding-left: 16px;
       }
-      .textarea{
+      .textarea {
         padding-left: 16px;
       }
-      .checkbox{
+      .checkbox {
         line-height: 2;
-        input[type="checkbox"] + label{
-          &::before{
+        input[type="checkbox"] + label {
+          &::before {
             top: 8px;
             left: -18px;
           }
-          &::after{
+          &::after {
             top: 10px;
             left: -17px;
           }
         }
       }
-      #formRapper{
+      #formRapper {
         display: flex;
         padding: 56px 56px 0;
-        #form_1{
+        #form_1 {
           width: 50%;
           margin-right: 20px;
         }
-        #form_2{
+        #form_2 {
           width: 50%;
           margin-left: 20px;
-          input[type="checkbox"] + label{
-            &::before{
+          input[type="checkbox"] + label {
+            &::before {
               top: -2px;
               left: -18px;
             }
-            &::after{
+            &::after {
               top: 0px;
               left: -17px;
             }
@@ -384,76 +487,86 @@ body {
   }
 }
 
-@media screen and (max-width: 480px){
-  header{
-    button{
+@media screen and (max-width: 480px) {
+  header {
+    button {
       display: none;
     }
   }
 
-  #chartArea{
-    #columnChartArea{
-      .datum{
-        p{
+  #chartArea {
+    #columnChartArea {
+      .datum {
+        p {
           margin: 5px 0;
         }
       }
       width: 100%;
       margin: 0 0 10px;
-      .chartContainer{
+      .chartContainer {
         height: 150px;
       }
-      #columnChart{
+      #columnChart {
         height: 100px;
       }
     }
-    #pieChartArea{
+    #pieChartArea {
       width: 100%;
-      height: 300px;
+      height: 350px;
       margin: 0;
+      p {
+        margin-bottom: 0;
+      }
+      .pieChartElements {
+        font-size: 12px;
+        &:before {
+          width: 12px;
+          height: 12px;
+        }
+      }
     }
   }
 
-  #modal{
-    #modalContent{
+  #modal {
+    #modalContent {
       margin-top: 64px;
       height: 1000px;
-      p{
+      p {
         margin: 10px 0 8px;
       }
-      .checkbox{
+      .checkbox {
         height: 20px;
         line-height: 1;
-        input[type = "checkbox"] + label{
-          &::before{
+        input[type="checkbox"] + label {
+          &::before {
             top: -2px;
             left: -18px;
           }
-          &::after{
+          &::after {
             top: 1px;
             left: -16px;
           }
         }
       }
-      .textarea{
+      .textarea {
         height: 50px;
       }
-      #formRapper{
+      #formRapper {
         padding: 36px 15px 0;
-        #form_1{
+        #form_1 {
           width: 100%;
-          label{
+          label {
             font-size: 12px;
           }
         }
-        #form_2{
+        #form_2 {
           width: 100%;
-          input[type = "checkbox"] + label{
-            &::before{
+          input[type="checkbox"] + label {
+            &::before {
               top: -2px;
               left: -18px;
             }
-            &::after{
+            &::after {
               top: 1px;
               left: -16px;
             }
@@ -462,7 +575,7 @@ body {
       }
     }
   }
-  #button_sp{
+  #button_sp {
     width: 90%;
     height: 50px;
     display: block;
@@ -475,3 +588,18 @@ body {
     background: linear-gradient(to right, #0f70bb, #42d1ff);
   }
 }
+
+$pieChartColor: #0445ec, #0f70bd, #20bdde, #3ccefe, #b29ef3, #6c46eb, #4a17ef,
+  #3005c0, #0445ec, #0f70bd, #20bdde;
+
+@each $color in $pieChartColor {
+  $index: index($pieChartColor, $color);
+  .pieChartElements:nth-child(#{$index}):before {
+    background-color: $color;
+  }
+}
+
+@keyframes loading {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+  }
