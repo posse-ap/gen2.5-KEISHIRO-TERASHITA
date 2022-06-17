@@ -1,0 +1,87 @@
+/* 全体のサイズ */
+main{
+  margin: 0 auto;
+  max-width: 650px;
+}
+
+/* 問題画像のサイズ */
+.questionPicture{
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* 緑の下線 */
+.title::after{
+  display: block;
+  width: 120px;
+  height: 2px;
+  background-color: #00aa36;
+  content: "";
+  margin-top: 10px;
+}
+
+/* 選択肢(選択前)の体裁 */
+.choice{
+  border: solid 1px #ebebeb;
+  margin: 7px auto;
+  font-weight: bold;
+  box-shadow: 0 3px 2px -2px rgb(0 0 0 / 13%);
+  height: 45px;
+  line-height: 45px;
+  padding-left: 25px;
+}
+
+/* 解答済みの問題の選択肢の無効化 */
+.oneClick{
+  pointer-events: none;
+}
+
+/* 回答Box(正解)を隠す */
+.answerBox{
+  display: none;
+}
+
+/* 回答Box(不正解)を隠す */
+.wrongBox{
+  display: none;
+}
+
+/* 解答後の正しい選択肢の見た目 */
+.collectChoice{
+  background-color: #297dfe;
+  color: #ffffff;
+}
+
+/* 不正解の選択肢を選んだときの見た目 */
+.chosenWrong{
+  background-color: #ff5028;
+  color: #ffffff;
+}
+
+/* 「正解！」の青い下線 */
+.collect{
+  margin-bottom: 10px;
+  border-bottom: solid 3px #297dfe;
+  width: 50px;
+  font-weight: bold;
+}
+
+/* 「不正解！」の赤い下線など */
+.wrong{
+  margin-bottom: 10px;
+  border-bottom: solid 3px #ff5028;
+  width: 70px;
+  font-weight: bold;
+}
+
+/* 解答Box(正解)の見た目 */
+.answerBoxAfter{
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+
+/* 解答Box(不正解)の見た目 */
+.wrongBoxAfter{
+  padding: 10px;
+  background-color: #f5f5f5;
+}
