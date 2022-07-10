@@ -10,9 +10,6 @@
   <link rel="stylesheet" href="./kuizy.css">
 </head>
 <body>
-  <?php
-  echo phpinfo();
-  ?>
   <main id="main"></main>
 </body>
 </html>
