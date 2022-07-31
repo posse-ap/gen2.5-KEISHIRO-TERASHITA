@@ -12,14 +12,20 @@ services:
       - php
   php:
     build: ./php
+    depends_on:
+      - db
     volumes:
       - ./kuizy:/var/www/html
   db:
-    image: mysql:8.0.30
-    platform: linux/x86_64
+    build: ./mysql
+    platform: linux/amd64
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=posse
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: posse
     ports:
       - 3306:3306
+    volumes:
+      - ./mysql/sql:/docker-entrypoint-initdb.d
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
