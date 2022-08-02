@@ -20,7 +20,7 @@
     );
 
     // タイトルを取得
-    $stmt = $pdo->prepare("SELECT name from posse.big_questions WHERE id = :n");
+    $stmt = $pdo->prepare("SELECT name FROM posse.big_questions WHERE id = :n");
     $stmt->execute(["n" => $id]);
     $title = $stmt->fetch();
 
