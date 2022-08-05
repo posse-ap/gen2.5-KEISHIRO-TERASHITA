@@ -1,0 +1,7 @@
+
+
+FROM mysql:8.0.30
+
+ENV LANG C.UTF-8
+ENV LANGUAGE C:ja
+ENV LC_ALL C.UTF-8

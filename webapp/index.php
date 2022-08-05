@@ -1,3 +1,17 @@
+<?php
+  try {
+    //データベースに接続
+    $pdo = new PDO(
+      "mysql:host=db;dbname=posse;charset=utf8mb4",
+      "root",
+      "password"
+    );
+    $member_id = filter_input(INPUT_GET, "member_id");
+  } catch (PDOException $e) {
+    echo $e->getMessage();
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
