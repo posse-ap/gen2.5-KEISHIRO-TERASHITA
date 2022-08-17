@@ -1,14 +1,92 @@
 <?php
+  
   try {
+    //日付関係 表示中の月の一日と翌月の一日を取得
+    $today = date("Y-m-d");
+    $year = intval(date("Y"));
+    $month = intval(date("m"));
+    var_dump($month);
+    $first_day = (string)$year . "-" . (string)$month . "-01";
+    if ($month === 12){
+      $next_month = (string)($year + 1) . "-01-01";
+    } else {
+      $next_month = (string)($year) . "-" . (string)($month + 1) . "-01";
+    }
+
     //データベースに接続
     $pdo = new PDO(
       "mysql:host=db;dbname=posse;charset=utf8mb4",
       "root",
       "password"
     );
-    $member_id = filter_input(INPUT_GET, "member_id");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // 誰のデータ？
+    $member_id = intval(filter_input(INPUT_GET, "member_id"));
+
+    // 学習時間の取得
+    // 総計
+    $stmt = $pdo->prepare("SELECT SUM(hours) total FROM studies WHERE member_id = :member_id");
+    $stmt->execute(["member_id" => $member_id]);
+    $hours_total = $stmt->fetch(PDO::FETCH_ASSOC);
+    // その月
+    $stmt = $pdo->prepare(
+    "SELECT SUM(hours) month FROM studies 
+    WHERE member_id = :member_id 
+    AND date >= :first_day 
+    AND date < :next_month"
+    );
+    $stmt->execute(["member_id" => $member_id, "first_day" => $first_day, "next_month" => $next_month]);
+    $hours_month = $stmt->fetch(PDO::FETCH_ASSOC);
+    // その日
+    $stmt = $pdo->prepare(
+      "SELECT SUM(hours) today FROM studies 
+      WHERE member_id = :member_id 
+      AND date = :today"
+      );
+    $stmt->execute(["member_id" => $member_id, "today" => $today]);
+    $hours_today = $stmt->fetch(PDO::FETCH_ASSOC);
+    // 日毎
+    // $stmt = $pdo->prepare(
+    //   "SELECT SUM(hours) hours, date FROM studies 
+    //   WHERE member_id = :member_id 
+    //   GROUP BY date
+    //   ORDER BY date ASC"
+    //   );
+    //   $stmt->execute(["member_id" => $member_id]);
+    //   $hours_day = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //   var_dump($hours_day);
+    for($day_counter = 1; $day_counter < 31; $day_counter ++){
+      $date = (string)$year . "-" . (string)$month . "-" . (string)$day_counter;
+      $stmt = $pdo->prepare("SELECT SUM(hours) hours FROM studies WHERE member_id = :member_id AND date = :date");
+      $stmt->execute(["member_id" => $member_id, "date" => $date]);
+      $hour_a_day = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    // 言語ごと
+    $stmt = $pdo->prepare(
+      "SELECT SUM(hours) hours, language 
+      FROM languages JOIN studies 
+      on studies.language_id = languages.id 
+      WHERE member_id = :member_id 
+      GROUP BY language_id
+      ORDER BY language_id DESC"
+      );
+    $stmt->execute(["member_id" => $member_id]);
+    $hours_language = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // コンテンツごと
+    $stmt = $pdo->prepare(
+      "SELECT SUM(hours) hours, content 
+      FROM studies JOIN contents 
+      on studies.content_id = contents.id 
+      WHERE member_id = :member_id 
+      GROUP BY content_id
+      ORDER BY content_id DESC"
+      );
+    $stmt->execute(["member_id" => $member_id]);
+    $hours_content = $stmt->fetchAll(PDO::FETCH_ASSOC);
   } catch (PDOException $e) {
     echo $e->getMessage();
+  } finally {
+    $pdo = null;
   }
 ?>
 
@@ -19,10 +97,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>webapp</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./style/style.css" />
     <script src="https://www.gstatic.com/charts/loader.js" defer></script>
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" defer></script>
-    <script src="./webapp.js" defer></script>
+    <script src="./js/makeChart.js" defer></script>
+    <script src="./js/webapp.js" defer></script>
   </head>
   <body>
     <header>
@@ -38,17 +117,17 @@
         <div id="data">
           <div class="datum" id="study_today">
             <p class="dataTitle">Today</p>
-            <p class="data_hour">3</p>
+            <p class="data_hour"><?= $hours_today["today"] ?></p>
             <p class="hour">hour</p>
           </div>
           <div class="datum" id="study_month">
             <p class="dataTitle">Month</p>
-            <p class="data_hour">120</p>
+            <p class="data_hour"><?= $hours_month["month"] ?></p>
             <p class="hour">hour</p>
           </div>
           <div class="datum" id="study_total">
             <p class="dataTitle">Total</p>
-            <p class="data_hour">1348</p>
+            <p class="data_hour"><?= $hours_total["total"] ?></p>
             <p class="hour">hour</p>
           </div>
         </div>
@@ -61,23 +140,22 @@
           <p class="pieChartTitle">学習言語</p>
           <div id="pieChart_language"></div>
           <div class="pieChartElementsArea">
-            <div class="pieChartElements">JavaScript</div>
-            <div class="pieChartElements">CSS</div>
-            <div class="pieChartElements">PHP</div>
-            <div class="pieChartElements">HTML</div>
-            <div class="pieChartElements">Laravel</div>
-            <div class="pieChartElements">SQL</div>
-            <div class="pieChartElements">SHELL</div>
-            <div class="pieChartElements">情報システム基礎知識(その他)</div>
+            <?php foreach($hours_language as $language): ?>
+            <div class="pieChartElements">
+              <?= $language["language"], "　", $language["hours"] ?>
+            </div>
+            <?php endforeach ?>
           </div>
         </div>
         <div class="chartContainer" id="container_pieChart_contents">
           <p class="pieChartTitle">学習コンテンツ</p>
           <div id="pieChart_contents"></div>
           <div class="pieChartElementsArea">
-            <div class="pieChartElements">ドットインストール</div>
-            <div class="pieChartElements">N予備校</div>
-            <div class="pieChartElements">POSSE課題</div>
+            <?php foreach($hours_content as $content): ?>
+            <div class="pieChartElements">
+              <?= $content["content"], "　", $content["hours"] ?>
+            </div>
+            <?php endforeach ?>
           </div>
         </div>
       </div>
