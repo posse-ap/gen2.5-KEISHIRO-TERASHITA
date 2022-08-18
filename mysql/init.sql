@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS posse;
 USE posse;
 
+DROP TABLE IF EXISTS members, studies, languages, contents;
+
 CREATE TABLE members (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name TEXT,
@@ -28,11 +30,12 @@ CREATE TABLE contents (
   content TEXT
 );
 
+-- 以下ダミーデータ
 INSERT INTO members VALUES
 (1, "林千翼子", 1, "chiyoko@example.com", "chiyoko"),
 (2, "小野寛太", 2, "onokan@example.com", "kanta"),
-(3, "寺下渓志郎", 1, "terashi@example.com", "keishiro"),
-(4, "伊藤瑠星", 1, "ryusei@example.com", "ryusei");
+(3, "寺下渓志郎", 2, "terashi@example.com", "keishiro"),
+(4, "伊藤瑠星", 3, "ryusei@example.com", "ryusei");
 
 INSERT INTO studies (member_id, language_id, content_id, hours, date) VALUES
 (1, 3, 1, 4, "2019-04-22"),

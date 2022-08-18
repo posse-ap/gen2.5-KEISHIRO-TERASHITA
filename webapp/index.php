@@ -5,7 +5,6 @@
     $today = date("Y-m-d");
     $year = intval(date("Y"));
     $month = intval(date("m"));
-    var_dump($month);
     $first_day = (string)$year . "-" . (string)$month . "-01";
     if ($month === 12){
       $next_month = (string)($year + 1) . "-01-01";
@@ -23,6 +22,8 @@
     // 誰のデータ？
     $member_id = intval(filter_input(INPUT_GET, "member_id"));
 
+    // to do ダミーデータを一括で入力したい。ランダム？
+
     // 学習時間の取得
     // 総計
     $stmt = $pdo->prepare("SELECT SUM(hours) total FROM studies WHERE member_id = :member_id");
@@ -37,30 +38,28 @@
     );
     $stmt->execute(["member_id" => $member_id, "first_day" => $first_day, "next_month" => $next_month]);
     $hours_month = $stmt->fetch(PDO::FETCH_ASSOC);
-    // その日
-    $stmt = $pdo->prepare(
-      "SELECT SUM(hours) today FROM studies 
-      WHERE member_id = :member_id 
-      AND date = :today"
-      );
-    $stmt->execute(["member_id" => $member_id, "today" => $today]);
-    $hours_today = $stmt->fetch(PDO::FETCH_ASSOC);
     // 日毎
-    // $stmt = $pdo->prepare(
-    //   "SELECT SUM(hours) hours, date FROM studies 
-    //   WHERE member_id = :member_id 
-    //   GROUP BY date
-    //   ORDER BY date ASC"
-    //   );
-    //   $stmt->execute(["member_id" => $member_id]);
-    //   $hours_day = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //   var_dump($hours_day);
-    for($day_counter = 1; $day_counter < 31; $day_counter ++){
-      $date = (string)$year . "-" . (string)$month . "-" . (string)$day_counter;
-      $stmt = $pdo->prepare("SELECT SUM(hours) hours FROM studies WHERE member_id = :member_id AND date = :date");
-      $stmt->execute(["member_id" => $member_id, "date" => $date]);
-      $hour_a_day = $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    $stmt = $pdo->prepare(
+      "SELECT SUM(hours) hours, date FROM studies 
+      WHERE member_id = :member_id 
+      GROUP BY date
+      ORDER BY date ASC"
+      );
+      $stmt->execute(["member_id" => $member_id]);
+      $hours_day = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $hours_each_day = [];
+      foreach($hours_day as $day){
+        $hours_each_day += [$day["date"] => $day["hours"]];
+      }
+      // for($day_counter = 1; $day_counter < 32; $day_counter ++){
+      //   $the_day = date("Y") . "-" . date("m") . "-" . (string)sprintf("%02d", $day_counter);
+      //   if($hours_each_day[$the_day] === null){
+      //     echo 0;
+      //   } else {
+      //     echo $hours_each_day[$the_day];
+      //   }
+      // }
+
     // 言語ごと
     $stmt = $pdo->prepare(
       "SELECT SUM(hours) hours, language 
@@ -72,6 +71,7 @@
       );
     $stmt->execute(["member_id" => $member_id]);
     $hours_language = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     // コンテンツごと
     $stmt = $pdo->prepare(
       "SELECT SUM(hours) hours, content 
@@ -117,7 +117,15 @@
         <div id="data">
           <div class="datum" id="study_today">
             <p class="dataTitle">Today</p>
-            <p class="data_hour"><?= $hours_today["today"] ?></p>
+            <p class="data_hour">
+              <?php
+                  if ($hours_each_day[$today] === null){
+                    echo 0;
+                  } else {
+                    echo $hours_each_day[$today];
+                  }
+              ?>
+            </p>
             <p class="hour">hour</p>
           </div>
           <div class="datum" id="study_month">
@@ -162,7 +170,7 @@
     </div>
     <div class="month">
       <section class="prev"></section>
-      <p>2020年 10月</p>
+      <p><?= $year ?>年 <?= $month ?>月</p>
       <section class="next"></section>
     </div>
 
