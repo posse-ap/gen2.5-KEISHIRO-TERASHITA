@@ -2,6 +2,17 @@
 require "./app/func.php";
 require "./app/getData.php";
 require "./app/chart.php";
+
+$pre = [
+  DATE('Y', strtotime((string)($gap - 1) . ' month')), 
+  DATE('m', strtotime((string)($gap - 1) . ' month'))
+];
+$pre_link = make_pre_link($gap, $pre);
+$next = [
+  DATE('Y', strtotime((string)($gap + 1) . ' month')), 
+  DATE('m', strtotime((string)($gap + 1) . ' month'))
+];
+$next_link = make_next_link($gap, $next);
 ?>
 
 <!DOCTYPE html>
@@ -104,9 +115,17 @@ require "./app/chart.php";
     </div>
   </div>
   <div class="month">
-    <section class="prev"></section>
-    <p><?= date("Y") ?>年 <?= date("m") ?>月</p>
-    <section class="next"></section>
+    <!-- <a class="prev" href="<?= $pre_link ?>"></a> -->
+    <form action="" method="POST">
+      <input type="hidden" name="shown_year" value=<?= (string)($shown_year - 1) ?>>
+      <button class="prev"></button>
+    </form>
+    <p><?= $shown_year ?>年 <?= $shown_month ?>月</p>
+    <!-- <a class="next" href="<?= $next_link ?>"></a> -->
+    <form action="" method="POST">
+      <input type="hidden" name="shown_year" value=<?= (string)($shown_year - 1) ?>>
+      <button class="next"></button>
+    </form>
   </div>
 
   <button onclick="showModal()" id="button_sp" class="button">記録・投稿</button>

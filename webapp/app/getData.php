@@ -1,25 +1,38 @@
 <?php
-//日付関係 表示中の月の一日と翌月の一日を取得
-$first_day = date("Y-m") . "-01";
-$next_month = date("Y-m", strtotime("+1 month")) . "-01";
 // db接続
 $pdo = db_connect();
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // 誰のデータ？
 $member_id = intval(filter_input(INPUT_GET, "member_id"));
-// 学習時間の取得
+// いつを表示？
+if(filter_input(INPUT_GET, "year")){
+  $shown_year = intval(filter_input(INPUT_GET, "year"));
+} else {
+  $shown_year = intval(DATE('Y'));
+}
+if(filter_input(INPUT_GET, "month")){
+  $shown_month = intval(filter_input(INPUT_GET, "month"));
+} else {
+  $shown_month = intval(DATE('m'));
+}
+if(filter_input(INPUT_GET, "gap")){
+  $gap = intval(filter_input(INPUT_GET, "gap"));
+} else {
+  $gap = 0;
+}
+// 学習時間の取得 TODO func.php 内で関数化し、ここでは呼び出すだけにしたい
 // 総計
 $stmt = $pdo->prepare("SELECT SUM(hours) total FROM studies WHERE member_id = :member_id");
 $stmt->execute(["member_id" => $member_id]);
 $hours_total = $stmt->fetch(PDO::FETCH_ASSOC);
-// 今月
+// 表示中の月
 $stmt = $pdo->prepare(
   "SELECT SUM(hours) month FROM studies 
   WHERE member_id = :member_id 
-  AND date >= :first_day 
-  AND date < :next_month"
+  AND YEAR(date) = :shown_year  
+  AND MONTH(date) = :shown_month"
 );
-$stmt->execute(["member_id" => $member_id, "first_day" => $first_day, "next_month" => $next_month]);
+$stmt->execute(["member_id" => $member_id, "shown_year" => $shown_year, "shown_month" => $shown_month]);
 $hours_month = $stmt->fetch(PDO::FETCH_ASSOC);
 // 日毎
 $stmt = $pdo->prepare(
