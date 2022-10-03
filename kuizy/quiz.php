@@ -15,11 +15,16 @@
     $stmt->execute(["n" => $id]);
     $title = $stmt->fetch();
 
-    // 問題の取得
-    $stmt = $pdo->prepare("SELECT * FROM posse.questions WHERE big_question_id = :big_question_id");
+    // 問題・選択肢の取得
+    $stmt = $pdo->prepare(
+    "SELECT question_id, image, name, valid FROM questions JOIN choices 
+    ON questions.id = choices.question_id 
+    WHERE big_question_id = :big_question_id"
+    );
     $stmt->execute([":big_question_id" => $id]);
-    $questions = $stmt->fetchAll();
-    $questions_length = count($questions);
+    $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // var_dump($questions);
+    $questions_length = count($questions) / 3;
   } catch (PDOException $e) {
     echo $e->getMessage();
   }
@@ -44,15 +49,10 @@
       <?php
       // 一問ずつ作成
       for ($question_num = 0; $question_num < $questions_length; $question_num++) :
-
-        // 選択肢の取得
-        $stmt = $pdo->prepare("SELECT * FROM posse.choices WHERE question_id = :question_num");
-        $stmt->execute([":question_num" => $questions[$question_num]["id"]]);
-        $choices = $stmt->fetchAll();
       ?>
         <section>
           <h2><?= $question_num + 1 ?>.この地名はなんて読む？</h2>
-          <img src="./img/<?= $questions[$question_num]["image"] ?>" alt="">
+          <img src="./img/<?= $questions[$question_num * 3]["image"] ?>" alt="">
           <ul>
             <?php
             // ランダムな数列の生成
@@ -67,8 +67,8 @@
             // 選択肢を表示
             for ($l = 0; $l < 3; $l++) :
             ?>
-              <li id="choice_<?= $question_num ?>_<?= $l ?>_<?= $choices[$random[$l]]["valid"] ?>">
-                <?= $choices[$random[$l]]["name"] ?>
+              <li id="choice_<?= $question_num ?>_<?= $l ?>_<?= $questions[$random[$l] + $question_num * 3]["valid"] ?>">
+                <?= $questions[$random[$l] + $question_num * 3]["name"] ?>
               </li>
             <?php endfor; ?>
           </ul>
