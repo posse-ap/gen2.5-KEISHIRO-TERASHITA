@@ -137,8 +137,8 @@ body .month .next {
   width: 16px;
   height: 16px;
   border: none;
-  border-top: blue solid 2px;
-  border-right: blue solid 2px;
+  border-top: rgb(19, 19, 239) solid 2px;
+  border-right: rgb(19, 19, 239) solid 2px;
   background-color: rgba(0, 0, 0, 0);
   transform: rotate(45deg);
 }

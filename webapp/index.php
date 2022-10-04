@@ -93,9 +93,9 @@ $next_link = make_next_link($gap, $next);
         <div id="pieChart_language"></div>
         <div class="pieChartElementsArea">
 
-          <?php foreach ($hours_language as $language) : ?>
+          <?php foreach ($hours_each_language as $language => $hour) : ?>
             <div class="pieChartElements">
-              <?= $language["language"], "　", $language["hours"] ?>
+              <?= $language, "　" ?>
             </div>
           <?php endforeach ?>
 
@@ -105,9 +105,9 @@ $next_link = make_next_link($gap, $next);
         <p class="pieChartTitle">学習コンテンツ</p>
         <div id="pieChart_contents"></div>
         <div class="pieChartElementsArea">
-          <?php foreach ($hours_content as $content) : ?>
+          <?php foreach ($hours_each_content as $content => $hour) : ?>
             <div class="pieChartElements">
-              <?= $content["content"], "　", $content["hours"] ?>
+              <?= $content, "　" ?>
             </div>
           <?php endforeach ?>
         </div>
@@ -117,13 +117,13 @@ $next_link = make_next_link($gap, $next);
   <div class="month">
     <!-- <a class="prev" href="<?= $pre_link ?>"></a> -->
     <form action="" method="POST">
-      <input type="hidden" name="shown_year" value=<?= (string)($shown_year - 1) ?>>
+      <input type="hidden" name="move" value="prev">
       <button class="prev"></button>
     </form>
     <p><?= $shown_year ?>年 <?= $shown_month ?>月</p>
     <!-- <a class="next" href="<?= $next_link ?>"></a> -->
     <form action="" method="POST">
-      <input type="hidden" name="shown_year" value=<?= (string)($shown_year - 1) ?>>
+      <input type="hidden" name="move" value="next">
       <button class="next"></button>
     </form>
   </div>
