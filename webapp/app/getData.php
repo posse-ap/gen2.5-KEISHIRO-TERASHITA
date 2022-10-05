@@ -1,4 +1,5 @@
 <?php
+session_start();
 // db接続
 $pdo = db_connect();
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -7,24 +8,20 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $requested = [];
 
 // 誰のデータ？ TODO セッションにしたいな
-$member_id = intval(filter_input(INPUT_GET, "member_id"));
-$requested['member_id'] = intval(filter_input(INPUT_GET, "member_id"));
+$_SESSION['member_id'] = 1;
+$member_id = $_SESSION['member_id'];
+$requested['member_id'] = $_SESSION['member_id'];
 
 // いつを表示？ TODO セッションにしたいな
-if(filter_input(INPUT_GET, "year")){
-  $shown_year = intval(filter_input(INPUT_GET, "year"));
-  $requested['shown_year'] = intval(filter_input(INPUT_GET, "year"));
-} else {
-  $shown_year = intval(DATE('Y'));
-  $requested['shown_year'] = intval(DATE('Y'));
+if ($_SESSION['shown_year'] === null){
+  $_SESSION['shown_year'] = intval(DATE('Y'));
+  $_SESSION['shown_month'] = intval(DATE('m'));
 }
-if(filter_input(INPUT_GET, "month")){
-  $shown_month = intval(filter_input(INPUT_GET, "month"));
-  $requested['shown_month'] = intval(filter_input(INPUT_GET, "month"));
-} else {
-  $shown_month = intval(DATE('m'));
-  $requested['shown_month'] = intval(DATE('m'));
-}
+$shown_year = $_SESSION['shown_year'];
+$requested['shown_year'] = $_SESSION['shown_year'];
+$shown_month = $_SESSION['shown_month'];
+$requested['shown_month'] = $_SESSION['shown_month'];
+
 if(filter_input(INPUT_GET, "gap")){
   $gap = intval(filter_input(INPUT_GET, "gap"));
 } else {

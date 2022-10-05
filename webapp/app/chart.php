@@ -1,6 +1,6 @@
 <?php
   $data = $hours_each_day;
-  $y_m = DATE('Y-m', strtotime((string)$gap . ' month'));
+  $y_m = (string)$requested['shown_year'] . '-' . num_to_str($requested['shown_month']);
 ?>
 
 <script src="https://www.gstatic.com/charts/loader.js"></script>

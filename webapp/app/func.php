@@ -97,17 +97,3 @@ function num_to_str(int $num){
   }
   return $str;
 }
-
-// ↓多分もうお役御免の２つ
-function make_pre_link($gap, $pre){
-  $gap = $gap - 1;
-  $year = $pre[0];
-  $month = $pre[1];
-  return '?member_id=1&year=' . (string)$year . '&month=' . (string)$month . '&gap=' . (string)$gap;
-}
-function make_next_link($gap, $next){
-  $gap = $gap + 1;
-  $year = $next[0];
-  $month = $next[1];
-  return '?member_id=1&year=' . (string)$year . '&month=' . (string)$month . '&gap=' . (string)$gap;
-}
