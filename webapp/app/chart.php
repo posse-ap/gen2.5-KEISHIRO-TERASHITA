@@ -1,6 +1,6 @@
 <?php
   $data = $hours_each_day;
-  $Y_m = date("Y-m", strtotime("0 month"));
+  $y_m = (string)$requested['shown_year'] . '-' . num_to_str($requested['shown_month']);
 ?>
 
 <script src="https://www.gstatic.com/charts/loader.js"></script>
@@ -20,43 +20,24 @@ function drawColumnChart() {
       textStyle:{
         fontSize:10
       }
-      // textSize:12
     },
   };
   const chart = new google.visualization.ColumnChart(target);
   const data = google.visualization.arrayToDataTable([
     ["date", "hour"],
-    ["", <?php insert_data($data, $Y_m . "-01"); ?>],
-    ["2", <?php insert_data($data, $Y_m . "-02"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-03"); ?>],
-    ["4", <?php insert_data($data, $Y_m . "-04"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-05"); ?>],
-    ["6", <?php insert_data($data, $Y_m . "-06"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-07"); ?>],
-    ["8", <?php insert_data($data, $Y_m . "-08"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-09"); ?>],
-    ["10", <?php insert_data($data, $Y_m . "-10"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-11"); ?>],
-    ["12", <?php insert_data($data, $Y_m . "-12"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-13"); ?>],
-    ["14", <?php insert_data($data, $Y_m . "-14"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-15"); ?>],
-    ["16", <?php insert_data($data, $Y_m . "-16"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-17"); ?>],
-    ["18", <?php insert_data($data, $Y_m . "-18"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-19"); ?>],
-    ["20", <?php insert_data($data, $Y_m . "-20"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-21"); ?>],
-    ["22", <?php insert_data($data, $Y_m . "-22"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-23"); ?>],
-    ["24", <?php insert_data($data, $Y_m . "-24"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-25"); ?>],
-    ["26", <?php insert_data($data, $Y_m . "-26"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-27"); ?>],
-    ["28", <?php insert_data($data, $Y_m . "-28"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-29"); ?>],
-    ["30", <?php insert_data($data, $Y_m . "-30"); ?>],
-    ["", <?php insert_data($data, $Y_m . "-31"); ?>],
+    // 棒グラフにデータを挿入
+    <?php
+    if ($shown_month === 2){
+      $end_of_date = 29;
+    } else {
+      $end_of_date = 31;
+    }
+    for ($i = 0; $i < $end_of_date; $i++) :
+      $label = $i % 2 === 0 ? '' : (string)($i + 1);
+      $index_date = $y_m . '-' . num_to_str($i + 1);
+    ?>
+    ["<?= $label ?>", <?php insert_data($data, $index_date); ?>],
+    <?php endfor ?>
   ]);
   chart.draw(data, options);
 }

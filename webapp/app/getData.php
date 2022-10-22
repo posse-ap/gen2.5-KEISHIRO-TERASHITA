@@ -1,66 +1,40 @@
 <?php
-//日付関係 表示中の月の一日と翌月の一日を取得
-$first_day = date("Y-m") . "-01";
-$next_month = date("Y-m", strtotime("+1 month")) . "-01";
+session_start();
 // db接続
 $pdo = db_connect();
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-// 誰のデータ？
-$member_id = intval(filter_input(INPUT_GET, "member_id"));
+
+// sqlのWHERE句で使う
+$requested = [];
+
+// 誰のデータ？ TODO セッションにしたいな
+$_SESSION['member_id'] = 1;
+$member_id = $_SESSION['member_id'];
+$requested['member_id'] = $_SESSION['member_id'];
+
+// いつを表示？ TODO セッションにしたいな
+if ($_SESSION['shown_year'] === null){
+  $_SESSION['shown_year'] = intval(DATE('Y'));
+  $_SESSION['shown_month'] = intval(DATE('m'));
+}
+$shown_year = $_SESSION['shown_year'];
+$requested['shown_year'] = $_SESSION['shown_year'];
+$shown_month = $_SESSION['shown_month'];
+$requested['shown_month'] = $_SESSION['shown_month'];
+
+if(filter_input(INPUT_GET, "gap")){
+  $gap = intval(filter_input(INPUT_GET, "gap"));
+} else {
+  $gap = 0;
+}
 // 学習時間の取得
 // 総計
-$stmt = $pdo->prepare("SELECT SUM(hours) total FROM studies WHERE member_id = :member_id");
-$stmt->execute(["member_id" => $member_id]);
-$hours_total = $stmt->fetch(PDO::FETCH_ASSOC);
-// 今月
-$stmt = $pdo->prepare(
-  "SELECT SUM(hours) month FROM studies 
-  WHERE member_id = :member_id 
-  AND date >= :first_day 
-  AND date < :next_month"
-);
-$stmt->execute(["member_id" => $member_id, "first_day" => $first_day, "next_month" => $next_month]);
-$hours_month = $stmt->fetch(PDO::FETCH_ASSOC);
+$hours_total = get_hours_total($pdo, $requested);
+// 表示中の月
+$hours_month = get_hours_month($pdo, $requested);
 // 日毎
-$stmt = $pdo->prepare(
-  "SELECT SUM(hours) hours, date FROM studies 
-    WHERE member_id = :member_id 
-    GROUP BY date
-    ORDER BY date ASC"
-);
-$stmt->execute(["member_id" => $member_id]);
-$hours_day = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$hours_each_day = [];
-foreach ($hours_day as $day) {
-  $hours_each_day += [$day["date"] => $day["hours"]];
-}
+$hours_each_day = get_hours_day($pdo, $requested);
 // 言語ごと
-$stmt = $pdo->prepare(
-  "SELECT SUM(hours) hours, language 
-    FROM languages JOIN studies 
-    on studies.language_id = languages.id 
-    WHERE member_id = :member_id 
-    GROUP BY language_id
-    ORDER BY language_id DESC"
-);
-$stmt->execute(["member_id" => $member_id]);
-$hours_language = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$hours_each_language = [];
-foreach ($hours_language as $language) {
-  $hours_each_language += [$language["language"] => $language["hours"]];
-}
+$hours_each_language = get_hours_language($pdo, $requested);
 // コンテンツごと
-$stmt = $pdo->prepare(
-  "SELECT SUM(hours) hours, content 
-    FROM studies JOIN contents 
-    on studies.content_id = contents.id 
-    WHERE member_id = :member_id 
-    GROUP BY content_id
-    ORDER BY content_id DESC"
-);
-$stmt->execute(["member_id" => $member_id]);
-$hours_content = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$hours_each_content = [];
-foreach ($hours_content as $content) {
-  $hours_each_content += [$content["content"] => $content["hours"]];
-}
+$hours_each_content = get_hours_contents($pdo, $requested);

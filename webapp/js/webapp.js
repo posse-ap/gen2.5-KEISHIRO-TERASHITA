@@ -1,4 +1,3 @@
-
 // モーダル
 const modal = document.querySelector("#modal");
 const modalClose = document.querySelector("#modalClose");
@@ -20,12 +19,12 @@ function outsideClose(e) {
 }
 
 const link_share = document.getElementById("link_share");
-link_share.addEventListener("click", function(event){
+link_share.addEventListener("click", function (event) {
   const shareButton = document.getElementById("share");
-  if (shareButton.checked){
+  if (shareButton.checked) {
     const twitterMessage = document.getElementById("twitterMessage");
     link_share.href = `https://twitter.com/intent/tweet?&text=${twitterMessage.value}`;
-  }else{
+  } else {
     event.preventDefault();
   }
   formRapper.innerHTML = "";
@@ -39,7 +38,7 @@ link_share.addEventListener("click", function(event){
   setTimeout(done, 2500);
 });
 
-function done(){
+function done() {
   formRapper.innerHTML = "";
   const completeMessage = document.createElement("div");
   completeMessage.id = "completeMessage";
@@ -100,8 +99,9 @@ function choseCell(i, j) {
   date_chosen = Number(chosenCell.innerHTML);
 }
 
-function getValueOfDate(){
-  date.value = year_chosen + "年 " + (month_chosen + 1) + "月 " + date_chosen + "日";
+function getValueOfDate() {
+  date.value =
+    year_chosen + "年 " + (month_chosen + 1) + "月 " + date_chosen + "日";
   calendarBackGround.style.display = "none";
 }
 
@@ -110,7 +110,9 @@ for (let i = 0; i < 6; i++) {
     const cell = document.createElement("div");
     cell.className = "cells";
     cell.id = `${i}_${j}`;
-    cell.setAttribute("onclick", `choseCell(${i},${j})`);
+    cell.addEventListener("click", () => {
+      choseCell(i,j);
+    })
     calendarArea.appendChild(cell);
   }
 }
@@ -163,7 +165,11 @@ function showDate() {
       }
       counter++;
     }
-    if (year === year_chosen && month === month_chosen && element.innerHTML === `${date_chosen}`) {
+    if (
+      year === year_chosen &&
+      month === month_chosen &&
+      element.innerHTML === `${date_chosen}`
+    ) {
       element.classList.add("chosen");
     }
     if (element.innerHTML === "") {
@@ -227,5 +233,35 @@ function checkboxClick(index) {
 }
 
 checkbox_label.forEach((element, index) =>
-  element.setAttribute("onclick", `checkboxClick(${index})`)
+  element.addEventListener("click", () => {
+    checkboxClick(index);
+  })
 );
+
+document.querySelectorAll(".modalShower").forEach((element) =>
+  element.addEventListener("click", () => {
+    showModal();
+  })
+);
+
+document.querySelectorAll(".calendarShower").forEach((element) =>
+  element.addEventListener("click", () => {
+    showCalendar();
+  })
+);
+
+document.getElementById("prevCalendar").addEventListener("click", () => {
+  prev();
+})
+
+document.getElementById("nextCalendar").addEventListener("click", () => {
+  next();
+})
+
+document.getElementById("calendarHead").addEventListener("click", () => {
+  showDate();
+})
+
+document.getElementById("getDate").addEventListener("click", () => {
+  getValueOfDate();
+})

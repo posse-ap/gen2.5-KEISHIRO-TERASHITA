@@ -1,7 +1,17 @@
 <?php
+session_start();
 require "./app/func.php";
 require "./app/getData.php";
 require "./app/chart.php";
+
+$pre = [
+  DATE('Y', strtotime((string)($gap - 1) . ' month')),
+  DATE('m', strtotime((string)($gap - 1) . ' month'))
+];
+$next = [
+  DATE('Y', strtotime((string)($gap + 1) . ' month')),
+  DATE('m', strtotime((string)($gap + 1) . ' month'))
+];
 ?>
 
 <!DOCTYPE html>
@@ -13,9 +23,7 @@ require "./app/chart.php";
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>webapp</title>
   <link rel="stylesheet" href="./style/style.css" />
-  <!-- <script src="https://www.gstatic.com/charts/loader.js" defer></script> -->
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" defer></script>
-  <!-- <script src="./js/makeChart.js" defer></script> -->
   <script src="./js/webapp.js" defer></script>
 </head>
 
@@ -25,7 +33,7 @@ require "./app/chart.php";
       <img src="./img/header-logo.png" alt="posseロゴ" />
       <p>4th week</p>
     </div>
-    <button onclick="showModal()">記録・投稿</button>
+    <button class="modalShower">記録・投稿</button>
   </header>
   <div id="chartArea">
     <div id="columnChartArea">
@@ -82,9 +90,9 @@ require "./app/chart.php";
         <div id="pieChart_language"></div>
         <div class="pieChartElementsArea">
 
-          <?php foreach ($hours_language as $language) : ?>
+          <?php foreach ($hours_each_language as $language => $hour) : ?>
             <div class="pieChartElements">
-              <?= $language["language"], "　", $language["hours"] ?>
+              <?= $language, "　" ?>
             </div>
           <?php endforeach ?>
 
@@ -94,9 +102,9 @@ require "./app/chart.php";
         <p class="pieChartTitle">学習コンテンツ</p>
         <div id="pieChart_contents"></div>
         <div class="pieChartElementsArea">
-          <?php foreach ($hours_content as $content) : ?>
+          <?php foreach ($hours_each_content as $content => $hour) : ?>
             <div class="pieChartElements">
-              <?= $content["content"], "　", $content["hours"] ?>
+              <?= $content, "　" ?>
             </div>
           <?php endforeach ?>
         </div>
@@ -104,12 +112,18 @@ require "./app/chart.php";
     </div>
   </div>
   <div class="month">
-    <section class="prev"></section>
-    <p><?= date("Y") ?>年 <?= date("m") ?>月</p>
-    <section class="next"></section>
+    <form action="app/changeMonth.php" method="POST">
+      <input type="hidden" name="move" value="prev">
+      <button class="prev"></button>
+    </form>
+    <p><?= $shown_year ?>年 <?= $shown_month ?>月</p>
+    <form action="app/changeMonth.php" method="POST">
+      <input type="hidden" name="move" value="next">
+      <button class="next"></button>
+    </form>
   </div>
 
-  <button onclick="showModal()" id="button_sp" class="button">記録・投稿</button>
+  <button id="button_sp" class="button modalShower">記録・投稿</button>
 
   <!-- モーダル -->
   <div id="modal">
@@ -118,7 +132,7 @@ require "./app/chart.php";
       <div id="formRapper">
         <div id="form_1">
           <p>学習日</p>
-          <input type="text" id="date" class="text" onclick="showCalendar()" />
+          <input type="text" id="date" class="text calendarShower" />
           <p>学習コンテンツ（複数選択可）</p>
           <div class="checkboxRapper">
             <div class="checkbox">
@@ -203,12 +217,12 @@ require "./app/chart.php";
   <div id="calendarBackGround">
     <div id="calendarRapper">
       <div class="month">
-        <section class="prev" onclick="prev()"></section>
-        <p id="calendarHead" onclick="showDate()"></p>
-        <section class="next" onclick="next()"></section>
+        <section id="prevCalendar" class="prev"></section>
+        <p id="calendarHead"></p>
+        <section id="nextCalendar" class="next"></section>
       </div>
       <div id="calendarArea"></div>
-      <button class="button" onclick="getValueOfDate()">決定</button>
+      <button id="getDate" class="button">決定</button>
     </div>
   </div>
 </body>
