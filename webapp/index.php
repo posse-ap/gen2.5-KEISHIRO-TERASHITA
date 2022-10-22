@@ -4,14 +4,6 @@ require "./app/func.php";
 require "./app/getData.php";
 require "./app/chart.php";
 
-$pre = [
-  DATE('Y', strtotime((string)($gap - 1) . ' month')),
-  DATE('m', strtotime((string)($gap - 1) . ' month'))
-];
-$next = [
-  DATE('Y', strtotime((string)($gap + 1) . ' month')),
-  DATE('m', strtotime((string)($gap + 1) . ' month'))
-];
 ?>
 
 <!DOCTYPE html>
@@ -35,95 +27,97 @@ $next = [
     </div>
     <button class="modalShower">記録・投稿</button>
   </header>
-  <div id="chartArea">
-    <div id="columnChartArea">
-      <div id="data">
-        <div class="datum" id="study_today">
-          <p class="dataTitle">Today</p>
-          <p class="data_hour">
-            <?php
-            if ($hours_each_day[date("Y-m-d")] === null) {
-              echo 0;
-            } else {
-              echo $hours_each_day[date("Y-m-d")];
-            }
-            ?>
-          </p>
-          <p class="hour">hour</p>
-        </div>
-        <div class="datum" id="study_month">
-          <p class="dataTitle">Month</p>
-          <p class="data_hour">
-            <?php
-            if ($hours_month["month"] === null) {
-              echo 0;
-            } else {
-              echo $hours_month["month"];
-            }
-            ?>
-          </p>
-          <p class="hour">hour</p>
-        </div>
-        <div class="datum" id="study_total">
-          <p class="dataTitle">Total</p>
-          <p class="data_hour">
+  <main>
+    <div id="chartArea">
+      <div id="columnChartArea">
+        <div id="data">
+          <div class="datum" id="study_today">
+            <p class="dataTitle">Today</p>
+            <p class="data_hour">
+              <?php
+              if ($hours_each_day[date("Y-m-d")] === null) {
+                echo 0;
+              } else {
+                echo $hours_each_day[date("Y-m-d")];
+              }
+              ?>
+            </p>
+            <p class="hour">hour</p>
+          </div>
+          <div class="datum" id="study_month">
+            <p class="dataTitle">Month</p>
+            <p class="data_hour">
+              <?php
+              if ($hours_month["month"] === null) {
+                echo 0;
+              } else {
+                echo $hours_month["month"];
+              }
+              ?>
+            </p>
+            <p class="hour">hour</p>
+          </div>
+          <div class="datum" id="study_total">
+            <p class="dataTitle">Total</p>
+            <p class="data_hour">
 
-            <?php
-            if ($hours_total["total"] === null) {
-              echo 0;
-            } else {
-              echo $hours_total["total"];
-            }
-            ?>
+              <?php
+              if ($hours_total["total"] === null) {
+                echo 0;
+              } else {
+                echo $hours_total["total"];
+              }
+              ?>
 
-          </p>
-          <p class="hour">hour</p>
+            </p>
+            <p class="hour">hour</p>
+          </div>
+        </div>
+        <div class="chartContainer">
+          <div id="columnChart"></div>
         </div>
       </div>
-      <div class="chartContainer">
-        <div id="columnChart"></div>
+      <div id="pieChartArea">
+        <div class="chartContainer" id="container_pieChart_language">
+          <p class="pieChartTitle">学習言語</p>
+          <div id="pieChart_language"></div>
+          <div class="pieChartElementsArea">
+
+            <?php foreach ($hours_each_language as $language => $hour) : ?>
+              <div class="pieChartElements">
+                <?= $language, "　" ?>
+              </div>
+            <?php endforeach ?>
+
+          </div>
+        </div>
+        <div class="chartContainer" id="container_pieChart_contents">
+          <p class="pieChartTitle">学習コンテンツ</p>
+          <div id="pieChart_contents"></div>
+          <div class="pieChartElementsArea">
+            <?php foreach ($hours_each_content as $content => $hour) : ?>
+              <div class="pieChartElements">
+                <?= $content, "　" ?>
+              </div>
+            <?php endforeach ?>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="pieChartArea">
-      <div class="chartContainer" id="container_pieChart_language">
-        <p class="pieChartTitle">学習言語</p>
-        <div id="pieChart_language"></div>
-        <div class="pieChartElementsArea">
-
-          <?php foreach ($hours_each_language as $language => $hour) : ?>
-            <div class="pieChartElements">
-              <?= $language, "　" ?>
-            </div>
-          <?php endforeach ?>
-
-        </div>
-      </div>
-      <div class="chartContainer" id="container_pieChart_contents">
-        <p class="pieChartTitle">学習コンテンツ</p>
-        <div id="pieChart_contents"></div>
-        <div class="pieChartElementsArea">
-          <?php foreach ($hours_each_content as $content => $hour) : ?>
-            <div class="pieChartElements">
-              <?= $content, "　" ?>
-            </div>
-          <?php endforeach ?>
-        </div>
-      </div>
+    <div class="month">
+      <form action="app/changeMonth.php" method="POST">
+        <input type="hidden" name="move" value="prev">
+        <button class="prev"></button>
+      </form>
+      <p><?= $shown_year ?>年 <?= $shown_month ?>月</p>
+      <form action="app/changeMonth.php" method="POST">
+        <input type="hidden" name="move" value="next">
+        <button class="next"></button>
+      </form>
     </div>
-  </div>
-  <div class="month">
-    <form action="app/changeMonth.php" method="POST">
-      <input type="hidden" name="move" value="prev">
-      <button class="prev"></button>
-    </form>
-    <p><?= $shown_year ?>年 <?= $shown_month ?>月</p>
-    <form action="app/changeMonth.php" method="POST">
-      <input type="hidden" name="move" value="next">
-      <button class="next"></button>
-    </form>
-  </div>
 
-  <button id="button_sp" class="button modalShower">記録・投稿</button>
+    <button id="button_sp" class="button modalShower">記録・投稿</button>
+  </main>
 
   <!-- モーダル -->
   <div id="modal">

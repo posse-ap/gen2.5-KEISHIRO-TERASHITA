@@ -7,12 +7,12 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // sqlのWHERE句で使う
 $requested = [];
 
-// 誰のデータ？ TODO セッションにしたいな
+// 誰のデータ？ TODO
 $_SESSION['member_id'] = 1;
 $member_id = $_SESSION['member_id'];
 $requested['member_id'] = $_SESSION['member_id'];
 
-// いつを表示？ TODO セッションにしたいな
+// いつを表示？ TODO
 if ($_SESSION['shown_year'] === null){
   $_SESSION['shown_year'] = intval(DATE('Y'));
   $_SESSION['shown_month'] = intval(DATE('m'));

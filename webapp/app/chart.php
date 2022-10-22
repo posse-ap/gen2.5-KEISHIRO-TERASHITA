@@ -27,11 +27,7 @@ function drawColumnChart() {
     ["date", "hour"],
     // 棒グラフにデータを挿入
     <?php
-    if ($shown_month === 2){
-      $end_of_date = 29;
-    } else {
-      $end_of_date = 31;
-    }
+    $end_of_date = date('t', strtotime($y_m . '-1'));
     for ($i = 0; $i < $end_of_date; $i++) :
       $label = $i % 2 === 0 ? '' : (string)($i + 1);
       $index_date = $y_m . '-' . num_to_str($i + 1);
