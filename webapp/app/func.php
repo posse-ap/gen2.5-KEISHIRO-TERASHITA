@@ -68,7 +68,7 @@ function get_hours_contents($pdo, $requested){
       on studies.content_id = contents.id 
       WHERE member_id = :member_id 
       GROUP BY content_id
-      ORDER BY content_id DESC"
+      ORDER BY content_id ASC"
   );
   $stmt->execute(["member_id" => $requested['member_id']]);
   $hours_content = $stmt->fetchAll(PDO::FETCH_ASSOC);
