@@ -130,17 +130,23 @@ body {
     }
 
     .prev {
+      display: block;
       width: 16px;
       height: 16px;
-      border-bottom: blue solid 2px;
-      border-left: blue solid 2px;
+      border: none;
+      border-bottom: rgb(19, 19, 239) solid 2px;
+      border-left: rgb(19, 19, 239) solid 2px;
+      background-color: rgba(0,0,0,0);
       transform: rotate(45deg);
     }
     .next {
+      display: block;
       width: 16px;
       height: 16px;
-      border-top: blue solid 2px;
-      border-right: blue solid 2px;
+      border: none;
+      border-top: rgb(19, 19, 239) solid 2px;
+      border-right: rgb(19, 19, 239) solid 2px;
+      background-color: rgba(0,0,0,0);
       transform: rotate(45deg);
     }
   }
@@ -377,8 +383,6 @@ body {
         }
         .today {
           font-weight: bold;
-        }
-        .future {
         }
       }
       button {

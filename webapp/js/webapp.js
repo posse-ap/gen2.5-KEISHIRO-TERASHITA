@@ -1,118 +1,4 @@
-function drawColumnChart() {
-  const target = document.getElementById("columnChart");
-  const options = {
-    "chartArea" : {"width" : "90%" , "height" : "80%"},
-    padding:0,
-    vAxis: {
-      format: "#h",
-      ticks: [0, 2, 4, 6, 8],
-    },
-    hAxis: {
-      showTextEvery: 1,
-      textStyle:{
-        fontSize:10
-      }
-      // textSize:12
-    },
-  };
-  const chart = new google.visualization.ColumnChart(target);
-  const data = google.visualization.arrayToDataTable([
-    ["date", "hour"],
-    ["", 2],
-    ["2", 0],
-    ["", 3],
-    ["4", 0],
-    ["", 4],
-    ["6", 5],
-    ["", 8],
-    ["8", 8],
-    ["", 1],
-    ["10", 0],
-    ["", 8],
-    ["12", 0],
-    ["", 8],
-    ["14", 2],
-    ["", 3],
-    ["16", 6],
-    ["", 0],
-    ["18", 7],
-    ["", 5],
-    ["20", 0],
-    ["", 1],
-    ["22", 1],
-    ["", 3],
-    ["24", 8],
-    ["", 4],
-    ["26", 5],
-    ["", 6],
-    ["28", 2],
-    ["", 0],
-    ["30", 1],
-    ["", 2],
-  ]);
-  chart.draw(data, options);
-}
-
-function drawPieChart_language() {
-  const target = document.getElementById("pieChart_language");
-  const options = {
-    pieHole: 0.5,
-    legend: "none",
-    'chartArea': {'width': '95%', 'height': '95%'},
-    slices: {
-      0: { color: '#0445ec' },
-      1: { color: '#0f70bd' },
-      2: { color: '#20bdde' },
-      3: { color: '#3ccefe' },
-      4: { color: '#b29ef3' },
-      5: { color: '#6c46eb' },
-      6: { color: '#4a17ef' },
-      7: { color: '#3005c0' },
-    }
-  };
-  const chart = new google.visualization.PieChart(target);
-  const data = new google.visualization.arrayToDataTable([
-    ["language", "hours"],
-    ["JavaScript", 10],
-    ["CSS", 20],
-    ["PHP", 10],
-    ["HTML", 2],
-    ["Laravel", 11],
-    ["SQL", 5],
-    ["SHELL", 7],
-    ["情報システム基礎知識(その他)", 8],
-  ]);
-  chart.draw(data, options);
-}
-
-function drawPieChart_contents() {
-  const target = document.getElementById("pieChart_contents");
-  const options = {
-    pieHole: 0.5,
-    legend: "none",
-    'chartArea': {'width': '95%', 'height': '95%'},
-    slices: {
-      0: { color: '#0445ec' },
-      1: { color: '#0f70bd' },
-      2: { color: '#20bdde' },
-    }
-  };
-  const chart = new google.visualization.PieChart(target);
-  const data = new google.visualization.arrayToDataTable([
-    ["language", "Votes"],
-    ["ドットインストール", 40],
-    ["N予備校", 20],
-    ["POSSE課題", 10]
-  ]);
-  chart.draw(data, options);
-}
-
-google.charts.load("current", { packages: ["corechart"] });
-
-google.charts.setOnLoadCallback(drawColumnChart);
-google.charts.setOnLoadCallback(drawPieChart_language);
-google.charts.setOnLoadCallback(drawPieChart_contents);
-
+// モーダル
 const modal = document.querySelector("#modal");
 const modalClose = document.querySelector("#modalClose");
 function showModal() {
@@ -133,13 +19,13 @@ function outsideClose(e) {
 }
 
 const link_share = document.getElementById("link_share");
-link_share.addEventListener("click", function(event){
+link_share.addEventListener("click", function (event) {
   const shareButton = document.getElementById("share");
-  if (shareButton.checked){
+  if (shareButton.checked) {
     const twitterMessage = document.getElementById("twitterMessage");
     link_share.href = `https://twitter.com/intent/tweet?&text=${twitterMessage.value}`;
-  }else{
-    event.preventDefault();
+  } else {
+    // event.preventDefault();
   }
   formRapper.innerHTML = "";
   document.getElementById("submitButton").style.display = "none";
@@ -152,7 +38,7 @@ link_share.addEventListener("click", function(event){
   setTimeout(done, 2500);
 });
 
-function done(){
+function done() {
   formRapper.innerHTML = "";
   const completeMessage = document.createElement("div");
   completeMessage.id = "completeMessage";
@@ -188,7 +74,7 @@ const date_today = today.getDate();
 let date_chosen = today.getDate();
 
 const date = document.getElementById("date");
-date.value = year + "年 " + (month + 1) + "月 " + date_today + "日";
+date.value = year + "-" + (month + 1) + "-" + date_today;
 
 const calendar = document.getElementById("calendar");
 const calendarArea = document.getElementById("calendarArea");
@@ -213,8 +99,9 @@ function choseCell(i, j) {
   date_chosen = Number(chosenCell.innerHTML);
 }
 
-function getValueOfDate(){
-  date.value = year_chosen + "年 " + (month_chosen + 1) + "月 " + date_chosen + "日";
+function getValueOfDate() {
+  date.value =
+    year_chosen + "-" + (month_chosen + 1) + "-" + date_chosen;
   calendarBackGround.style.display = "none";
 }
 
@@ -223,7 +110,9 @@ for (let i = 0; i < 6; i++) {
     const cell = document.createElement("div");
     cell.className = "cells";
     cell.id = `${i}_${j}`;
-    cell.setAttribute("onclick", `choseCell(${i},${j})`);
+    cell.addEventListener("click", () => {
+      choseCell(i,j);
+    })
     calendarArea.appendChild(cell);
   }
 }
@@ -276,7 +165,11 @@ function showDate() {
       }
       counter++;
     }
-    if (year === year_chosen && month === month_chosen && element.innerHTML === `${date_chosen}`) {
+    if (
+      year === year_chosen &&
+      month === month_chosen &&
+      element.innerHTML === `${date_chosen}`
+    ) {
       element.classList.add("chosen");
     }
     if (element.innerHTML === "") {
@@ -340,5 +233,35 @@ function checkboxClick(index) {
 }
 
 checkbox_label.forEach((element, index) =>
-  element.setAttribute("onclick", `checkboxClick(${index})`)
+  element.addEventListener("click", () => {
+    checkboxClick(index);
+  })
 );
+
+document.querySelectorAll(".modalShower").forEach((element) =>
+  element.addEventListener("click", () => {
+    showModal();
+  })
+);
+
+document.querySelectorAll(".calendarShower").forEach((element) =>
+  element.addEventListener("click", () => {
+    showCalendar();
+  })
+);
+
+document.getElementById("prevCalendar").addEventListener("click", () => {
+  prev();
+})
+
+document.getElementById("nextCalendar").addEventListener("click", () => {
+  next();
+})
+
+document.getElementById("calendarHead").addEventListener("click", () => {
+  showDate();
+})
+
+document.getElementById("getDate").addEventListener("click", () => {
+  getValueOfDate();
+})
