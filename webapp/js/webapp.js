@@ -25,7 +25,7 @@ link_share.addEventListener("click", function (event) {
     const twitterMessage = document.getElementById("twitterMessage");
     link_share.href = `https://twitter.com/intent/tweet?&text=${twitterMessage.value}`;
   } else {
-    event.preventDefault();
+    // event.preventDefault();
   }
   formRapper.innerHTML = "";
   document.getElementById("submitButton").style.display = "none";
@@ -74,7 +74,7 @@ const date_today = today.getDate();
 let date_chosen = today.getDate();
 
 const date = document.getElementById("date");
-date.value = year + "年 " + (month + 1) + "月 " + date_today + "日";
+date.value = year + "-" + (month + 1) + "-" + date_today;
 
 const calendar = document.getElementById("calendar");
 const calendarArea = document.getElementById("calendarArea");
@@ -101,7 +101,7 @@ function choseCell(i, j) {
 
 function getValueOfDate() {
   date.value =
-    year_chosen + "年 " + (month_chosen + 1) + "月 " + date_chosen + "日";
+    year_chosen + "-" + (month_chosen + 1) + "-" + date_chosen;
   calendarBackGround.style.display = "none";
 }
 

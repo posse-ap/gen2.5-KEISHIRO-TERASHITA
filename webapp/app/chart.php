@@ -27,11 +27,7 @@ function drawColumnChart() {
     ["date", "hour"],
     // 棒グラフにデータを挿入
     <?php
-    if ($shown_month === 2){
-      $end_of_date = 29;
-    } else {
-      $end_of_date = 31;
-    }
+    $end_of_date = date('t', strtotime($y_m . '-1'));
     for ($i = 0; $i < $end_of_date; $i++) :
       $label = $i % 2 === 0 ? '' : (string)($i + 1);
       $index_date = $y_m . '-' . num_to_str($i + 1);
@@ -62,14 +58,9 @@ function drawPieChart_language() {
   const chart = new google.visualization.PieChart(target);
   const data = new google.visualization.arrayToDataTable([
     ["language", "hours"],
-    ["HTML", <?php insert_data($hours_each_language, "HTML") ?>],
-    ["CSS", <?php insert_data($hours_each_language, "CSS") ?>],
-    ["JS", <?php insert_data($hours_each_language, "JS") ?>],
-    ["PHP", <?php insert_data($hours_each_language, "PHP") ?>],
-    ["SQL", <?php insert_data($hours_each_language, "SQL") ?>],
-    ["Laravel", <?php insert_data($hours_each_language, "Laravel") ?>],
-    ["SHELL", <?php insert_data($hours_each_language, "SHELL") ?>],
-    ["その他", <?php insert_data($hours_each_language, "その他") ?>],
+    <?php foreach ($hours_each_language as $language => $hour) : ?>
+    ["<?= $language ?>", <?php insert_data($hours_each_language, $language)?>],
+    <?php endforeach ?>
   ]);
   chart.draw(data, options);
 }
@@ -84,14 +75,19 @@ function drawPieChart_contents() {
       0: { color: '#0445ec' },
       1: { color: '#0f70bd' },
       2: { color: '#20bdde' },
+      3: { color: '#3ccefe' },
+      4: { color: '#b29ef3' },
+      5: { color: '#6c46eb' },
+      6: { color: '#4a17ef' },
+      7: { color: '#3005c0' },
     }
   };
   const chart = new google.visualization.PieChart(target);
   const data = new google.visualization.arrayToDataTable([
     ["content", "Votes"],
-    ["POSSE課題", <?php insert_data($hours_each_content, "POSSE課題") ?>],
-    ["ドットインストール", <?php insert_data($hours_each_content, "ドットインストール") ?>],
-    ["N予備校", <?php insert_data($hours_each_content, "N予備校") ?>],
+    <?php foreach ($hours_each_content as $content => $hour) : ?>
+    ["<?= $content ?>", <?php insert_data($hours_each_content, $content)?>],
+    <?php endforeach ?>
   ]);
   chart.draw(data, options);
 }

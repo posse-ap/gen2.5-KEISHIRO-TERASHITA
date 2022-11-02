@@ -50,6 +50,7 @@ INSERT INTO studies (member_id, language_id, content_id, hours, date) VALUES
 (1, 6, 2, 3, ADDDATE(CURDATE(),interval -4 day)),
 (1, 8, 1, 4, ADDDATE(CURDATE(),interval -3 day)),
 (1, 4, 1, 4, ADDDATE(CURDATE(),interval -1 day)),
+(1, 4, 4, 4, ADDDATE(CURDATE(),interval -1 day)), -- その他試しにね
 (1, 5, 3, 5, CURDATE()),
 (1, 4, 2, 3, CURDATE()),
 (1, 7, 2, 3, ADDDATE(CURDATE(),interval +2 day)),
@@ -80,4 +81,5 @@ INSERT INTO languages VALUES
 INSERT INTO contents VALUES
 (1, "N予備校"),
 (2, "ドットインストール"),
-(3, "POSSE課題");
+(3, "POSSE課題"),
+(4, "その他");
